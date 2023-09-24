@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"@webflow/webflow-cli": "^1.6.3"
+	}
+}
