@@ -1,5 +1,15 @@
 {
-	"dependencies": {
-		"@webflow/webflow-cli": "^1.6.3"
-	}
+  "name": "sass",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && webflow extension bundle",
+    "dev": "concurrently -r \"webflow extension serve\" \"tsc -p tsconfig.json --watch --preserveWatchOutput\""
+  },
+  "devDependencies": {
+    "@webflow/designer-extension-typings": "*",
+    "concurrently": "*",
+    "typescript": "*"
+  }
 }

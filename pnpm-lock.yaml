@@ -4,21 +4,100 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  '@webflow/webflow-cli':
-    specifier: ^1.6.3
-    version: 1.6.3
+devDependencies:
+  '@webflow/designer-extension-typings':
+    specifier: '*'
+    version: 0.1.0
+  concurrently:
+    specifier: '*'
+    version: 0.0.2
+  typescript:
+    specifier: '*'
+    version: 0.8.0
 
 packages:
 
-  /@webflow/webflow-cli@1.6.3:
-    resolution: {integrity: sha512-pwUqgNPGt7Uu+I7tR5eH8Sq0XJhjBwuX2AKuVAcayK32vk12yttMSRPFY7wsHZGDf1lFYgKVxdKlVuXZhGjHig==}
+  /@webflow/designer-extension-typings@0.1.0:
+    resolution: {integrity: sha512-rTcvRBHPI1zUP1itjhOgibRWqTlgE7nq7fci9gKOXcPP/aIY8CHEVPOfRzj3KRHrc0pao+s/8K2JrhY73aCfMw==}
+    dev: true
+
+  /ansi-regex@0.2.1:
+    resolution: {integrity: sha512-sGwIGMjhYdW26/IhwK2gkWWI8DRCVO6uj3hYgHT+zD+QL1pa37tM3ujhyfcJIYSbsxp7Gxhy7zrRW/1AHm4BmA==}
+    engines: {node: '>=0.10.0'}
+    dev: true
+
+  /ansi-styles@1.1.0:
+    resolution: {integrity: sha512-f2PKUkN5QngiSemowa6Mrk9MPCdtFiOSmibjZ+j1qhLGHHYsqZwmBMRF3IRMVXo8sybDqx2fJl2d/8OphBoWkA==}
+    engines: {node: '>=0.10.0'}
+    dev: true
+
+  /bluebird@2.9.6:
+    resolution: {integrity: sha512-SVwAE1qajO/OS4N1eM94cO41Vs60sDsqq7RvPYbNeQmI7iH/+ndxLTu0PIMgopNH9q94nw1pGg+FclCj2hnfoA==}
+    dev: true
+
+  /chalk@0.5.1:
+    resolution: {integrity: sha512-bIKA54hP8iZhyDT81TOsJiQvR1gW+ZYSXFaZUAvoD4wCHdbHY2actmpTE4x344ZlFqHbvoxKOaESULTZN2gstg==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      ansi-styles: 1.1.0
+      escape-string-regexp: 1.0.5
+      has-ansi: 0.1.0
+      strip-ansi: 0.3.0
+      supports-color: 0.2.0
+    dev: true
+
+  /commander@2.6.0:
+    resolution: {integrity: sha512-PhbTMT+ilDXZKqH8xbvuUY2ZEQNef0Q7DKxgoEKb4ccytsdvVVJmYqR0sGbi96nxU6oGrwEIQnclpK2NBZuQlg==}
+    engines: {node: '>= 0.6.x'}
+    dev: true
+
+  /concurrently@0.0.2:
+    resolution: {integrity: sha512-1Ae6ECwq7WGijfvqVuKQ7hjW90i8X2sIjzL8VvdmyjT6SNXkkuJ4igC5hH0KFHffFY317HW6OiqKcqv4/8QbLg==}
     hasBin: true
     dependencies:
-      commander: 10.0.1
-    dev: false
+      bluebird: 2.9.6
+      chalk: 0.5.1
+      commander: 2.6.0
+      lodash: 3.1.0
+      rx: 2.3.24
+    dev: true
 
-  /commander@10.0.1:
-    resolution: {integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==}
-    engines: {node: '>=14'}
-    dev: false
+  /escape-string-regexp@1.0.5:
+    resolution: {integrity: sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==}
+    engines: {node: '>=0.8.0'}
+    dev: true
+
+  /has-ansi@0.1.0:
+    resolution: {integrity: sha512-1YsTg1fk2/6JToQhtZkArMkurq8UoWU1Qe0aR3VUHjgij4nOylSWLWAtBXoZ4/dXOmugfLGm1c+QhuD0JyedFA==}
+    engines: {node: '>=0.10.0'}
+    hasBin: true
+    dependencies:
+      ansi-regex: 0.2.1
+    dev: true
+
+  /lodash@3.1.0:
+    resolution: {integrity: sha512-kH7H/6T8ut2DMWAHIKJWZoDzYdvy+echL6u2VZbhYYkEjr6Zp15Yjt9pPvIPQwAT/5QaQYdaVPwCcLMP9qeu0w==}
+    dev: true
+
+  /rx@2.3.24:
+    resolution: {integrity: sha512-Ue4ZB7Dzbn2I9sIj8ws536nOP2S53uypyCkCz9q0vlYD5Kn6/pu4dE+wt2ZfFzd9m73hiYKnnCb1OyKqc+MRkg==}
+    dev: true
+
+  /strip-ansi@0.3.0:
+    resolution: {integrity: sha512-DerhZL7j6i6/nEnVG0qViKXI0OKouvvpsAiaj7c+LfqZZZxdwZtv8+UiA/w4VUJpT8UzX0pR1dcHOii1GbmruQ==}
+    engines: {node: '>=0.10.0'}
+    hasBin: true
+    dependencies:
+      ansi-regex: 0.2.1
+    dev: true
+
+  /supports-color@0.2.0:
+    resolution: {integrity: sha512-tdCZ28MnM7k7cJDJc7Eq80A9CsRFAAOZUy41npOZCs++qSjfIy7o5Rh46CBk+Dk5FbKJ33X3Tqg4YrV07N5RaA==}
+    engines: {node: '>=0.10.0'}
+    hasBin: true
+    dev: true
+
+  /typescript@0.8.0:
+    resolution: {integrity: sha512-t4DYxzL6Gt3+TRuJXtmh+3KfcY5iSM8J4lzUgfQkTOr78xFbmor79x/dQEGMaiqO2HJBbFGO3RlIaxPzpP5JMA==}
+    hasBin: true
+    dev: true
