@@ -1,0 +1,21 @@
+{
+  "name": "sass",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel build && tsc -p tsconfig.json && webflow extension bundle",
+    "dev": "concurrently -r \"webflow extension serve\" parcel \"tsc -p tsconfig.json --watch --preserveWatchOutput\""
+  },
+  "devDependencies": {
+    "@webflow/designer-extension-typings": "^0.1.7",
+    "concurrently": "^8.2.1",
+    "parcel": "^2.9.3",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@codemirror/lang-sass": "^6.0.2",
+    "codemirror": "^6.0.1",
+    "sass": "^1.68.0"
+  }
+}

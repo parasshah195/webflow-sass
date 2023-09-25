@@ -1,4 +1,5 @@
 {
   "name": "sass",
-  "size": "large"
+  "size": "large",
+  "publicDir": "dist"
 }

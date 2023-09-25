@@ -2,14 +2,27 @@
   "name": "sass",
   "version": "1.0.0",
   "private": true,
-  "main": "index.js",
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "build": "tsc -p tsconfig.json && webflow extension bundle",
-    "dev": "concurrently -r \"webflow extension serve\" \"tsc -p tsconfig.json --watch --preserveWatchOutput\""
+    "build": "parcel build && webflow extension bundle",
+    "dev": "concurrently \"parcel\" \"webflow extension serve\""
   },
   "devDependencies": {
-    "@webflow/designer-extension-typings": "*",
-    "concurrently": "*",
-    "typescript": "*"
-  }
+    "@parcel/transformer-sass": "2.9.3",
+    "@webflow/designer-extension-typings": "^0.1.7",
+    "concurrently": "^8.2.1",
+    "parcel": "^2.9.3",
+    "process": "^0.11.10",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@codemirror/lang-sass": "^6.0.2",
+    "@codemirror/state": "^6.2.1",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "@webflow/webflow-cli": "^1.6.3",
+    "codemirror": "^6.0.1",
+    "sass": "^1.68.0"
+  },
+  "type": "module"
 }
