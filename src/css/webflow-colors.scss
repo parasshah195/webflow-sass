@@ -1,0 +1,74 @@
+/* Webflow colors */
+:root {
+  --background1: #404040;
+  --background2: #4d4d4d;
+  --background3: #363636;
+  --background4: #2b2b2b;
+  --background5: #212121;
+  --backgroundInactive: #4d4d4d;
+  --backgroundInverse: #ebebeb;
+
+  --actionSecondaryBackground: #5e5e5e;
+  --actionSecondaryBackgroundHover: #696969;
+  --actionPrimaryText: #ffffff;
+  --actionPrimaryTextHover: #f6f6f6;
+  --actionSecondaryText: #ebebeb;
+  --actionSecondaryTextHover: #f6f6f6;
+  --actionPrimaryBackground: #0073e6;
+  --actionPrimaryBackgroundHover: #1280ee;
+
+  --border1: #363636;
+  --border2: #2b2b2b;
+  --border3: #212121;
+  --border4: #5e5e5e;
+
+  --text1: #d9d9d9;
+  --text2: #ababab;
+  --text3: #757575;
+  --text4: #696969;
+  --textInactive: #757575;
+  --textInverse: #363636;
+
+  --blueText: #8ac2ff;
+  --blueIcon: #2496ff;
+  --blueBorder: #2496ff;
+
+  --greenBackground: #008547;
+  --greenBackgroundHover: #00944f;
+  --greenText: #63d489;
+  --greenIcon: #2fc862;
+  --greenBorder: #2fc862;
+
+  --yellowBackground: #996e00;
+  --yellowBackgroundHover: #ad7d00;
+  --yellowText: #ffc700;
+  --yellowIcon: #ffc700;
+  --yellowBorder: #ffc700;
+  --redBackground: #cf313b;
+  --redBackgroundHover: #db434c;
+  --redText: #ff8a8a;
+  --redIcon: #ff424d;
+  --redBorder: #ff424d;
+
+  --orangeBackground: #c75300;
+  --orangeBackgroundHover: #dd7124;
+  --orangeText: #ffab66;
+  --orangeIcon: #f67e28;
+  --orangeBorder: #f67e28;
+  --purpleBackground: #7f5ae9;
+  --purpleBackgroundHover: #8a61ff;
+  --purpleText: #b89eff;
+  --purpleIcon: #a484ff;
+  --purpleBorder: #a484ff;
+
+  /* TYPOGRAPHY */
+  --font-stack: 'Inter', sans-serif;
+
+  --font-size-small: 11px;
+  --font-size-large: 12px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+
+  --border-radius: 2px;
+}
