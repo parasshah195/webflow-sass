@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "@webflow/designer-extension-typings": "^0.1.7",
-    "@webflow/webflow-cli": "^1.6.3",
     "concurrently": "^8.2.1",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
