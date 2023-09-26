@@ -4,8 +4,8 @@
   "private": true,
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "dev": "concurrently \"vite build --watch --emptyOutDir\" \"webflow extension serve\"",
-    "build": "vite build --emptyOutDir && webflow extension bundle"
+    "dev": "concurrently \"vite build --watch\" \"webflow extension serve\"",
+    "build": "vite build && webflow extension bundle"
   },
   "devDependencies": {
     "@webflow/designer-extension-typings": "^0.1.7",
