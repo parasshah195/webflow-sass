@@ -1,7 +1,7 @@
-import { setExtensionSize } from './js/setExtensionSize.js';
-import { initEditor } from './js/initEditor.js';
-import { selectors } from './js/selectors.js';
-import { processSass } from './js/processSass.js';
+import { setExtensionSize } from './setExtensionSize.js';
+import { initEditor } from './initEditor.js';
+import { selectors } from './selectors.js';
+import { processSass } from './processSass.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   setExtensionSize();
