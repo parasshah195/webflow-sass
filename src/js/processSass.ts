@@ -67,14 +67,24 @@ export async function processSass() {
   const filenameSCSS = filenameEl.value + '.scss';
   const filenameCSS = filenameEl.value + '.css';
 
-  const newSassEl = webflow.createDOM('template');
-  newSassEl.setTextContent(sassText);
+  try {
+    const newSassEl = webflow.createDOM('template');
+    newSassEl.setTextContent(sassText);
+    const sassClass = webflow.createStyle(filenameSCSS);
+    newSassEl.setStyles([sassClass]);
 
-  const newCSSEl = webflow.createDOM('style');
-  newCSSEl.setTextContent(compiledCSS);
+    const newCSSEl = webflow.createDOM('style');
+    newCSSEl.setTextContent(compiledCSS);
+    const CSSClass = webflow.createStyle(filenameCSS);
+    newCSSEl.setStyles([CSSClass]);
 
-  newSassEl.setAttribute('css-el-id', newCSSEl.id);
+    newSassEl.setAttribute('css-el-id', newCSSEl.id);
 
-  selectedEl.setChildren([newSassEl, newCSSEl]);
-  await selectedEl.save();
+    const currentSelectedElChildren = selectedEl.getChildren();
+    selectedEl.setChildren([...currentSelectedElChildren, newSassEl, newCSSEl]);
+    await selectedEl.save();
+  } catch (err) {
+    await showWebflowError(err);
+    return;
+  }
 }
