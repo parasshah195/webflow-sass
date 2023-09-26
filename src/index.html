@@ -1,4 +1,4 @@
-<link href="style.scss" rel="stylesheet" />
+<link href="css/style.scss" rel="stylesheet" />
 <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet"> -->
@@ -6,13 +6,13 @@
 <form class="form_component" id="form-sass-editor">
 
   <div class="form_top-actions">
-    <input type="text" name="filename" placeholder="Enter filename (E.g: 'Global Styles')">
+    <input type="text" name="filename" placeholder="Enter filename (E.g: 'Global Styles')" value="test">
     <div class="form_top-actions_compression">
       <label for="form_top-actions_compression-dropdown"></label>
-      <select name="sass-editor-compression" id="form_top-actions_compression-dropdown">
+      <!-- <select name="sass-editor-compression" id="form_top-actions_compression-dropdown">
         <option value="compressed" selected>Compressed</option>
         <option value="expanded">Expanded</option>
-      </select>
+      </select> -->
     </div>
   </div>
 
@@ -20,7 +20,7 @@
 
   <div class="form_bottom-actions">
     <button class="button-default" id="editor-load-sass">Load selected element Sass</button>
-    <button class="button" id="editor-save-sass">Save</button>
+    <button type="submit" class="button" id="editor-save-sass">Save</button>
   </div>
 </form>
 

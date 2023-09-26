@@ -11,10 +11,14 @@
   "devDependencies": {
     "@parcel/transformer-sass": "2.9.3",
     "@webflow/designer-extension-typings": "^0.1.7",
+    "buffer": "^6.0.3",
     "concurrently": "^8.2.1",
+    "events": "^3.3.0",
     "parcel": "^2.9.3",
     "process": "^0.11.10",
-    "typescript": "^5.2.2"
+    "stream-browserify": "^3.0.0",
+    "typescript": "^5.2.2",
+    "util": "^0.12.5"
   },
   "dependencies": {
     "@codemirror/lang-sass": "^6.0.2",
