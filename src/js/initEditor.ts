@@ -10,7 +10,7 @@ export function initEditor() {
     doc: `h1 {
       font-size: 40px;
       code {
-        font-face: Roboto Mono;
+        font-face: 'Helvetica', sans-serif;
       }
     }`,
     extensions: [basicSetup, sassEditorLang(), oneDark],
