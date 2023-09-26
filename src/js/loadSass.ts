@@ -1,12 +1,16 @@
 import { getFilenameInputEl, removeFilenameExtension } from './filename.js';
 import { getNewEditorState } from './initEditor.js';
 import { selectors } from './selectors.js';
-import { showWebflowError } from './showWebflowError.js';
+import { showWebflowError } from './webflowNotify.js';
+import { format } from 'prettier/standalone';
+import parserPostcss from 'prettier/parser-postcss';
 
+// TODO: format Sass on loading back into the editor
+// can potentially use prettier, like how string.is does - https://github.com/recurser/string-is/blob/develop/src/lib/outputs/CssOutput.ts
 export async function loadSass() {
   window.SASS_EDITMODE = 'load';
 
-  const sassEl = await webflow.getSelectedElement();
+  const sassEl = (await webflow.getSelectedElement()) as DOMElement;
   if (!sassEl) {
     await showWebflowError('No element selected');
     return;
@@ -40,7 +44,11 @@ export async function loadSass() {
   }
 
   const currentSassContent = currentSassStringEl.getText();
-  window.CODEMIRROR_INSTANCE.setState(getNewEditorState(currentSassContent));
+  const formattedSass = await format(currentSassContent, {
+    parser: 'scss',
+    plugins: [parserPostcss]
+  })
+  window.CODEMIRROR_INSTANCE.setState(getNewEditorState(formattedSass));
 }
 
 /**
