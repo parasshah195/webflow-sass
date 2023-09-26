@@ -2,29 +2,24 @@
   "name": "sass",
   "version": "1.0.0",
   "private": true,
-  "source": "src/index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "build": "parcel build && webflow extension bundle",
-    "dev": "concurrently \"parcel\" \"webflow extension serve\""
+    "dev": "concurrently \"vite build --watch --emptyOutDir\" \"webflow extension serve\"",
+    "build": "vite build --emptyOutDir && webflow extension bundle"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "2.9.3",
     "@webflow/designer-extension-typings": "^0.1.7",
-    "buffer": "^6.0.3",
+    "@webflow/webflow-cli": "^1.6.3",
     "concurrently": "^8.2.1",
-    "events": "^3.3.0",
-    "parcel": "^2.9.3",
-    "process": "^0.11.10",
-    "stream-browserify": "^3.0.0",
+    "tslib": "^2.6.2",
     "typescript": "^5.2.2",
-    "util": "^0.12.5"
+    "vite": "^4.4.9",
+    "vite-plugin-chunk-split": "^0.4.7"
   },
   "dependencies": {
     "@codemirror/lang-sass": "^6.0.2",
     "@codemirror/state": "^6.2.1",
     "@codemirror/theme-one-dark": "^6.1.2",
-    "@webflow/webflow-cli": "^1.6.3",
     "codemirror": "^6.0.1",
     "sass": "^1.68.0"
   },
