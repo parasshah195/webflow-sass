@@ -5,14 +5,10 @@ import { sass as sassEditorLang } from '@codemirror/lang-sass';
 
 import { selectors } from './selectors.js';
 
+// TODO: allow "tab" key indentation inside the codemirror editor
+
 export function initEditor() {
-  const initString = `h1 {
-    font-size: 40px;
-    code {
-      font-face: 'Helvetica', sans-serif;
-    }
-  }`;
-  const initialState = getNewEditorState(initString);
+  const initialState = getNewEditorState();
 
   window.CODEMIRROR_INSTANCE = new EditorView({
     parent: document.getElementById(selectors.SASS_EDITOR_ID),
