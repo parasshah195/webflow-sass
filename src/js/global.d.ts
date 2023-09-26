@@ -8,6 +8,6 @@ declare global {
      * `load` when loading an existing DOM file
      */
     SASS_EDITMODE: 'new' | 'load';
-    SASS_LOADED_EL: null | AnyElement;
+    SASS_LOADED_EL: null | DOMElement;
   }
 }

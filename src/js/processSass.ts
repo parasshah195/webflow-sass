@@ -1,5 +1,5 @@
-import * as sassLang from 'sass';
-import { showWebflowError } from './showWebflowError.js';
+import {compileStringAsync as sassAsyncCompile} from 'sass';
+import { showWebflowError, showWebflowSuccessfulSave } from './webflowNotify.js';
 import { getFilenameInputEl, getFilenamesWithExtension } from './filename.js';
 import { selectors } from './selectors.js';
 import { getCssDomId } from './getCssDomId.js';
@@ -48,6 +48,8 @@ export async function updateSass() {
     return;
   }
 
+  const filenames = getFilenamesWithExtension(filenameInput);
+
   const compiledCode = await getCSSFromEditorSass();
   if (!compiledCode) {
     return;
@@ -55,37 +57,25 @@ export async function updateSass() {
 
   // set scss
   sassEl.setTextContent(compiledCode.sass);
+  await addStyle(filenames.scss, sassEl);
   await sassEl.save();
 
   const cssDomId = getCssDomId(sassEl);
+  const currentSelectedEl = await webflow.getSelectedElement();
 
   // set css
   if (!cssDomId) {
-    const currentEl = await webflow.getSelectedElement();
-    if ('DOM' === currentEl.type && 'template' === currentEl.getTag()) {
+    if (
+      'DOM' === currentSelectedEl.type &&
+      'template' === currentSelectedEl.getTag()
+    ) {
       await showWebflowError(
         'Unable to find the previous CSS Element. Please select parent element which has SASS element and then save again to generate new CSS element'
       );
       return;
     } else {
-      if (!currentEl.children) {
-        await showWebflowError(
-          'Please select the correct parent which can have a child CSS element'
-        );
-        return;
-      }
-
-      const filenames = getFilenamesWithExtension(filenameInput);
-      const newCSSEl = await createNewCSSEl(compiledCode.css, filenames.css);
-
-      if (sassEl.customAttributes) {
-        sassEl.setCustomAttribute(selectors.CSS_DOM_ID_ATTRIBUTE, newCSSEl.id);
-      }
-
-      const currentSelectedElChildren = currentEl.getChildren();
-      currentEl.setChildren([...currentSelectedElChildren, newCSSEl]);
-
-      await currentEl.save();
+      createNewCSSElForSass(currentSelectedEl, sassEl, compiledCode.css);
+      return;
     }
   } else {
     // find the CSS element and update
@@ -93,9 +83,7 @@ export async function updateSass() {
     const currentCssEl = allElements.find((el) => el.id === cssDomId.domID);
 
     if (!currentCssEl) {
-      await showWebflowError(
-        'Unable to find the correct CSS element for this Sass element'
-      );
+      createNewCSSElForSass(currentSelectedEl, sassEl, compiledCode.css);
       return;
     }
 
@@ -107,8 +95,11 @@ export async function updateSass() {
     }
 
     currentCssEl.setTextContent(compiledCode.css);
+    await addStyle(filenames.css, currentCssEl);
     await currentCssEl.save();
   }
+
+  await showWebflowSuccessfulSave();
 }
 
 export async function createNewSassDOM() {
@@ -149,13 +140,15 @@ export async function createNewSassDOM() {
     const newSassEl = await createNewSassEl(compiledCode.sass, filenames.scss);
     const newCSSEl = await createNewCSSEl(compiledCode.css, filenames.css);
 
+    newSassEl.setAttribute(selectors.CSS_DOM_ID_ATTRIBUTE, newCSSEl.id);
+
     const currentSelectedElChildren = selectedEl.getChildren();
     selectedEl.setChildren([...currentSelectedElChildren, newSassEl, newCSSEl]);
     await selectedEl.save();
 
     // change mode to continue updating the same Sass and CSS files.
     window.SASS_EDITMODE = 'load';
-    window.SASS_LOADED_EL = selectedEl;
+    window.SASS_LOADED_EL = newSassEl;
   } catch (err) {
     console.error(err);
     await showWebflowError('Unknown error on adding Sass and generated CSS');
@@ -164,6 +157,8 @@ export async function createNewSassDOM() {
     );
     return;
   }
+
+  await showWebflowSuccessfulSave();
 }
 
 async function createNewSassEl(
@@ -171,8 +166,9 @@ async function createNewSassEl(
   sassFilename: string
 ): Promise<DOMElement> {
   const newSassEl = webflow.createDOM('template');
-  const newSassStringEl = webflow.createString(compiledSass);
-  newSassEl.setChildren([newSassStringEl]);
+  newSassEl.setTextContent(compiledSass);
+  // const newSassStringEl = webflow.createString(compiledSass);
+  // newSassEl.setChildren([newSassStringEl]);
   await addStyle(sassFilename, newSassEl);
 
   return newSassEl;
@@ -183,8 +179,9 @@ async function createNewCSSEl(
   cssFilename: string
 ): Promise<DOMElement> {
   const newCSSEl = webflow.createDOM('style');
-  const newCSSStringEl = webflow.createString(compiledCSS);
-  newCSSEl.setChildren([newCSSStringEl]);
+  newCSSEl.setTextContent(compiledCSS);
+  // const newCSSStringEl = webflow.createString(compiledCSS);
+  // newCSSEl.setChildren([newCSSStringEl]);
   await addStyle(cssFilename, newCSSEl);
 
   return newCSSEl;
@@ -192,6 +189,7 @@ async function createNewCSSEl(
 
 /**
  * Creates a new class if doesn't exist or directly adds it
+ * Replaces any existing classes on the element
  * @param className Class name to be added
  * @param webflowEl The webflow element on which the class has to be added
  * @returns
@@ -199,6 +197,7 @@ async function createNewCSSEl(
 async function addStyle(className, webflowEl) {
   try {
     let style = await webflow.getStyleByName(className);
+
     if (!style) {
       style = webflow.createStyle(className);
       await style.save();
@@ -229,7 +228,7 @@ async function getCSSFromEditorSass(): Promise<ProcessedCode | false> {
 
   // run sass lib on it, error check
   try {
-    const sassCompiled = await sassLang.compileStringAsync(sassCode, {
+    const sassCompiled = await sassAsyncCompile(sassCode, {
       style: 'compressed',
       quietDeps: true,
     });
@@ -245,4 +244,38 @@ async function getCSSFromEditorSass(): Promise<ProcessedCode | false> {
     sass: sassCode,
     css: compiledCSS,
   };
+}
+
+/**
+ * Generates a new CSS element for an existing Sass. Updates its CSS DOM ID attribute
+ * @param currentEl The webflow element to nest the CSS element within
+ * @param sassEl The Sass el for which the CSS element is being created
+ * @param compiledCSS The compiled CSS String
+ * @returns
+ */
+async function createNewCSSElForSass(
+  currentEl: AnyElement,
+  sassEl: DOMElement,
+  compiledCSS: string
+) {
+  if (
+    !currentEl.children ||
+    ('DOM' === currentEl.type && 'template' === currentEl.getTag())
+  ) {
+    await showWebflowError(
+      'Please select the correct parent element which has the scss element'
+    );
+    return;
+  }
+
+  const filenames = getFilenamesWithExtension(filenameInput);
+  const newCSSEl = await createNewCSSEl(compiledCSS, filenames.css);
+
+  sassEl.setAttribute(selectors.CSS_DOM_ID_ATTRIBUTE, newCSSEl.id);
+  await sassEl.save();
+
+  const currentSelectedElChildren = currentEl.getChildren();
+  currentEl.setChildren([...currentSelectedElChildren, newCSSEl]);
+
+  await currentEl.save();
 }
