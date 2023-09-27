@@ -110,11 +110,15 @@
         return;
       }
 
-      currentCssEl.setTextContent(compiledCode.css);
-      await addStyle(filenames.css, currentCssEl);
-      await currentCssEl.save();
-
-      await showWebflowSuccessfulSave();
+      try {
+        currentCssEl.setTextContent(compiledCode.css);
+        await addStyle(filenames.css, currentCssEl);
+        await currentCssEl.save();
+        await showWebflowSuccessfulSave();
+      } catch (err) {
+        showWebflowError((err as Error).message);
+        return;
+      }
     } else {
       if (
         'DOM' === currentSelectedEl.type &&
@@ -251,13 +255,18 @@
     const filenames = getFilenamesWithExtension(filenameInputVal);
     const newCSSEl = await createNewCSSEl(compiledCSS, filenames.css);
 
-    sassEl.setAttribute(CSS_DOM_ID_ATTRIBUTE, newCSSEl.id);
-    await sassEl.save();
+    try {
+      sassEl.setAttribute(CSS_DOM_ID_ATTRIBUTE, newCSSEl.id);
+      await sassEl.save();
 
-    const currentSelectedElChildren = currentEl.getChildren();
-    currentEl.setChildren([...currentSelectedElChildren, newCSSEl]);
+      const currentSelectedElChildren = currentEl.getChildren();
+      currentEl.setChildren([...currentSelectedElChildren, newCSSEl]);
 
-    await currentEl.save();
+      await currentEl.save();
+    } catch (err) {
+      showWebflowError((err as Error).message);
+      return;
+    }
   }
 </script>
 

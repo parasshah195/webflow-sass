@@ -1,5 +1,9 @@
 <script context="module" lang="ts">
   import * as sass from 'sass';
+  import { EditorView, basicSetup } from 'codemirror';
+  import { EditorState } from '@codemirror/state';
+  import { oneDark } from '@codemirror/theme-one-dark';
+  import { sass as sassEditorLang } from '../js/codemirrorSass';
 
   interface ProcessedCode {
     sass: string;
@@ -57,10 +61,6 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { EditorView, basicSetup } from 'codemirror';
-  import { EditorState } from '@codemirror/state';
-  import { oneDark } from '@codemirror/theme-one-dark';
-  import { sass as sassEditorLang } from '@codemirror/lang-sass';
   import { ERROR_TEXTS, showWebflowError } from '../js/webflowNotify';
 
   export let CODEMIRROR_INSTANCE: EditorView;
