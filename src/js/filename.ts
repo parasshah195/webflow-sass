@@ -3,16 +3,12 @@ interface FilenameObject {
   css: string;
 }
 
-export function getFilenameInputEl() {
-  return document.getElementsByName('filename')[0] as HTMLInputElement;
-}
-
 export function getFilenamesWithExtension(
-  filenameInputEl: HTMLInputElement
+  filenameInputValue: string
 ): FilenameObject {
   return {
-    scss: filenameInputEl.value + '.scss',
-    css: filenameInputEl.value + '.css',
+    scss: filenameInputValue + '.scss',
+    css: filenameInputValue + '.css',
   };
 }
 
