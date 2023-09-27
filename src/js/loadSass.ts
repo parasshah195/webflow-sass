@@ -45,43 +45,7 @@ export async function loadSass() {
   const currentSassContent = currentSassStringEl.getText();
   const formattedSass = await format(currentSassContent, {
     parser: 'scss',
-    plugins: [parserPostcss]
-  })
-  window.CODEMIRROR_INSTANCE.setState(getNewEditorState(formattedSass));
-}
-
-/**
- * Updates state of Sass load button if the element is correctly identified as a custom Sass template
- */
-export function elementChangeWatcher() {
-  webflow.subscribe('selectedelement', (selectedEl) => {
-    if (!selectedEl) {
-      disableSassLoadButton();
-      return;
-    }
-
-    if ('DOM' !== selectedEl.type) {
-      disableSassLoadButton();
-      return;
-    }
-
-    if ('template' !== selectedEl.getTag()) {
-      disableSassLoadButton();
-      return;
-    }
-
-    enableSassLoadButton();
+    plugins: [parserPostcss],
   });
-}
-
-function disableSassLoadButton() {
-  document
-    .getElementById(selectors.SASS_LOAD_BUTTON_ID)
-    .setAttribute('disabled', '');
-}
-
-function enableSassLoadButton() {
-  document
-    .getElementById(selectors.SASS_LOAD_BUTTON_ID)
-    .removeAttribute('disabled');
+  window.CODEMIRROR_INSTANCE.setState(getNewEditorState(formattedSass));
 }
