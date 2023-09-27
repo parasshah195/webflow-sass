@@ -5,7 +5,6 @@ import { showWebflowError } from './webflowNotify.js';
 import { format } from 'prettier/standalone';
 import parserPostcss from 'prettier/parser-postcss';
 
-// TODO: format Sass on loading back into the editor
 // can potentially use prettier, like how string.is does - https://github.com/recurser/string-is/blob/develop/src/lib/outputs/CssOutput.ts
 export async function loadSass() {
   window.SASS_EDITMODE = 'load';

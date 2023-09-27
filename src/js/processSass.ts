@@ -1,4 +1,6 @@
+// note: sass module is huge, calculating to ~3MB in minified size
 import {compileStringAsync as sassAsyncCompile} from 'sass';
+
 import { showWebflowError, showWebflowSuccessfulSave } from './webflowNotify.js';
 import { getFilenameInputEl, getFilenamesWithExtension } from './filename.js';
 import { selectors } from './selectors.js';
