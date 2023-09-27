@@ -14,6 +14,9 @@
     event.preventDefault();
     event.stopPropagation();
 
+    // TODO: warn for any unsaved style changes in this middle stage
+    // can be probably done by equating the existing Sass text to current editor text
+
     document.body.addEventListener(
       'click',
       () => {

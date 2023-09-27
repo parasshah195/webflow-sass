@@ -15,7 +15,7 @@ export async function showWebflowInfoMessage(message: string) {
 export async function showWebflowSuccessfulSave() {
   await webflow.notify({
     type: 'Success',
-    message: 'Style updated successfully',
+    message: 'Style updated',
   });
 }
 
