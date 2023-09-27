@@ -1,0 +1,75 @@
+<script lang="ts">
+  import { getContext, onMount } from 'svelte';
+
+  import { ERROR_TEXTS, showWebflowError } from '../js/webflowNotify';
+  import { removeFilenameExtension } from '../js/filename';
+  import { format } from 'prettier/standalone.js';
+  import parserPostcss from 'prettier/parser-postcss';
+  import { getNewEditorState } from './Editor.svelte';
+  import type { EditorView } from 'codemirror';
+  import type { EditorFileTypes, LoadedSassEl } from './EditorForm.svelte';
+
+  let clickable = false;
+  export let filename: string;
+  export let CODEMIRROR_INSTANCE: EditorView;
+  export let EDITOR_FILE_TYPE: EditorFileTypes;
+  export let LOADED_SASS_EL: LoadedSassEl;
+
+  onMount(() => {
+    webflow.subscribe('selectedelement', (selectedEl) => {
+      if (
+        !selectedEl ||
+        'DOM' !== selectedEl.type ||
+        'template' !== selectedEl.getTag()
+      ) {
+        clickable = false;
+        return;
+      }
+
+      clickable = true;
+    });
+  });
+
+  async function loadSass() {
+    EDITOR_FILE_TYPE = 'load';
+
+    const sassEl = (await webflow.getSelectedElement()) as DOMElement;
+    if (!sassEl || !sassEl.children) {
+      await showWebflowError(ERROR_TEXTS.invalidSassElLoad);
+      return;
+    }
+
+    LOADED_SASS_EL = sassEl;
+
+    let currentFileName = '';
+
+    if (sassEl.styles) {
+      const currentElStyles = await sassEl.getStyles();
+      const currentFileNameWithExtn = currentElStyles[0].getName();
+      currentFileName = removeFilenameExtension(currentFileNameWithExtn);
+
+      filename = currentFileName;
+    }
+
+    const currentSassStringEl = sassEl.getChildren()[0];
+
+    if ('String' !== currentSassStringEl.type) {
+      await showWebflowError(ERROR_TEXTS.sassLoadNoCode);
+      return;
+    }
+
+    const currentSassContent = currentSassStringEl.getText();
+    const formattedSass = await format(currentSassContent, {
+      parser: 'scss',
+      plugins: [parserPostcss],
+    });
+
+    CODEMIRROR_INSTANCE.setState(getNewEditorState(formattedSass));
+  }
+</script>
+
+<button
+  class="button-default"
+  disabled={!clickable}
+  on:click|preventDefault={loadSass}>Load selected element Sass</button
+>
