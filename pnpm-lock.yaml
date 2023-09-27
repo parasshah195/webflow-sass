@@ -5,15 +5,24 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@codemirror/lang-css':
+    specifier: ^6.2.1
+    version: 6.2.1(@codemirror/view@6.20.2)
   '@codemirror/lang-sass':
     specifier: ^6.0.2
     version: 6.0.2(@codemirror/view@6.20.2)
+  '@codemirror/language':
+    specifier: ^6.9.1
+    version: 6.9.1
   '@codemirror/state':
     specifier: ^6.2.1
     version: 6.2.1
   '@codemirror/theme-one-dark':
     specifier: ^6.1.2
     version: 6.1.2
+  '@lezer/sass':
+    specifier: ^1.0.3
+    version: 1.0.3
   codemirror:
     specifier: ^6.0.1
     version: 6.0.1(@lezer/common@1.1.0)
