@@ -1,34 +1,19 @@
 <script lang="ts">
-  import { getContext, onMount, setContext } from 'svelte';
-  import {
-    SASS_LOADED_EL_CONTEXT_KEY,
-    type LoadedSassContextValue,
-    type SassEditmodeContextValue,
-    SASS_EDITMODE_CONTEXT_KEY,
-    CODEMIRROR_INSTANCE_CONTEXT_KEY,
-  } from '../js/contexts';
+  import { getContext, onMount } from 'svelte';
+
   import { ERROR_TEXTS, showWebflowError } from '../js/webflowNotify';
-  import { writable } from 'svelte/store';
   import { removeFilenameExtension } from '../js/filename';
   import { format } from 'prettier/standalone.js';
   import parserPostcss from 'prettier/parser-postcss';
   import { getNewEditorState } from './Editor.svelte';
   import type { EditorView } from 'codemirror';
+  import type { EditorFileTypes, LoadedSassEl } from './EditorForm.svelte';
 
   let clickable = false;
   export let filename: string;
-
-  setContext({ SASS_LOADED_EL_CONTEXT_KEY }, {
-    el: writable(null),
-  } as LoadedSassContextValue);
-
-  const editMode = getContext<SassEditmodeContextValue>({
-    SASS_EDITMODE_CONTEXT_KEY,
-  }).mode;
-
-  const loadedEl = getContext<LoadedSassContextValue>({
-    SASS_LOADED_EL_CONTEXT_KEY,
-  }).el;
+  export let CODEMIRROR_INSTANCE: EditorView;
+  export let EDITOR_FILE_TYPE: EditorFileTypes;
+  export let LOADED_SASS_EL: LoadedSassEl;
 
   onMount(() => {
     webflow.subscribe('selectedelement', (selectedEl) => {
@@ -46,7 +31,7 @@
   });
 
   async function loadSass() {
-    editMode.set('load');
+    EDITOR_FILE_TYPE = 'load';
 
     const sassEl = (await webflow.getSelectedElement()) as DOMElement;
     if (!sassEl || !sassEl.children) {
@@ -54,7 +39,7 @@
       return;
     }
 
-    loadedEl.set(sassEl);
+    LOADED_SASS_EL = sassEl;
 
     let currentFileName = '';
 
@@ -79,9 +64,7 @@
       plugins: [parserPostcss],
     });
 
-    getContext<EditorView>({ CODEMIRROR_INSTANCE_CONTEXT_KEY }).setState(
-      getNewEditorState(formattedSass)
-    );
+    CODEMIRROR_INSTANCE.setState(getNewEditorState(formattedSass));
   }
 </script>
 

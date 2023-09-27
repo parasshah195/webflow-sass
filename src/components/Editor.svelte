@@ -21,15 +21,15 @@
    * Get Sass from editor and compile it to CSS
    * Shows Weblow errors when required
    */
-  export async function getCompiledCodeFromEditor(): Promise<
-    ProcessedCode | false
-  > {
-    const sassCode = getContext<EditorView>({ CODEMIRROR_INSTANCE_CONTEXT_KEY })
-      .state.doc.toString()
+  export async function getCompiledCodeFromEditor(
+    CODEMIRROR_INSTANCE: EditorView
+  ): Promise<ProcessedCode | false> {
+    const sassCode = CODEMIRROR_INSTANCE.state.doc
+      .toString()
       .replace(/[\n\r]/g, '');
 
     if (!sassCode || '' === sassCode) {
-      await showWebflowError("Can't save an empty document");
+      await showWebflowError(ERROR_TEXTS.emptyFile);
       return false;
     }
 
@@ -57,31 +57,22 @@
 </script>
 
 <script lang="ts">
-  import { getContext, onMount, setContext } from 'svelte';
+  import { onMount } from 'svelte';
   import { EditorView, basicSetup } from 'codemirror';
   import { EditorState } from '@codemirror/state';
   import { oneDark } from '@codemirror/theme-one-dark';
   import { sass as sassEditorLang } from '@codemirror/lang-sass';
-  import {
-    CODEMIRROR_INSTANCE_CONTEXT_KEY,
-    SASS_EDITMODE_CONTEXT_KEY,
-    type SassEditmodeContextValue,
-  } from '../js/contexts';
-  import { writable } from 'svelte/store';
-  import { showWebflowError } from '../js/webflowNotify';
+  import { ERROR_TEXTS, showWebflowError } from '../js/webflowNotify';
+
+  export let CODEMIRROR_INSTANCE: EditorView;
 
   let editorEl: HTMLDivElement;
 
   onMount(() => {
-    const CODEMIRROR_INSTANCE = new EditorView({
+    CODEMIRROR_INSTANCE = new EditorView({
       parent: editorEl,
       state: getNewEditorState(),
     });
-
-    setContext({ CODEMIRROR_INSTANCE_CONTEXT_KEY }, CODEMIRROR_INSTANCE);
-    setContext({ SASS_EDITMODE_CONTEXT_KEY }, {
-      mode: writable('new'),
-    } as SassEditmodeContextValue);
   });
 </script>
 

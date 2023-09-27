@@ -20,6 +20,7 @@ export async function showWebflowSuccessfulSave() {
 }
 
 export const ERROR_TEXTS = {
+  emptyFile: "Can't save an empty file",
   sassDomNotFound:
     'Unable to locate current Sass DOM element. Creating a new one',
   sassDomCantUpdate:

@@ -1,3 +1,8 @@
+<script context="module" lang="ts">
+  export type EditorFileTypes = 'new' | 'load';
+  export type LoadedSassEl = DOMElement | null;
+</script>
+
 <script lang="ts">
   import Editor, { getCompiledCodeFromEditor } from './Editor.svelte';
   import NewEditorFileLink from './NewFileLink.svelte';
@@ -13,23 +18,19 @@
   } from '../js/webflowNotify.js';
   import { getFilenamesWithExtension } from '../js/filename.js';
   import { getCssDomId, CSS_DOM_ID_ATTRIBUTE } from '../js/getCssDomId.js';
-  import { getContext } from 'svelte';
-  import {
-    SASS_LOADED_EL_CONTEXT_KEY,
-    type LoadedSassContextValue,
-    type SassEditmodeContextValue,
-    SASS_EDITMODE_CONTEXT_KEY,
-  } from '../js/contexts.js';
+  import { getContext, setContext } from 'svelte';
+  import { writable } from 'svelte/store';
+  import type { EditorView } from 'codemirror';
 
   let filenameInputVal: string;
 
-  const loadedEl = getContext({
-    SASS_LOADED_EL_CONTEXT_KEY,
-  }).el;
+  let CODEMIRROR_INSTANCE: EditorView;
+  /**
+   * Defines whether the code file is new or existing
+   */
+  let EDITOR_FILE_TYPE: EditorFileTypes = 'new';
 
-  const editMode = getContext({
-    SASS_EDITMODE_CONTEXT_KEY,
-  }).mode;
+  let LOADED_SASS_EL: LoadedSassEl = null;
 
   /**
    * Note: `setTextContent` method is used to set the content, and el.getChildren()[0].getText() is used to fetch content. Seems to be the same thing
@@ -41,7 +42,7 @@
       return;
     }
 
-    if ('new' === editMode) {
+    if ('new' === EDITOR_FILE_TYPE) {
       createNewSassDOM();
     } else {
       updateSass();
@@ -49,13 +50,13 @@
   }
 
   export async function updateSass() {
-    if (!loadedEl) {
+    if (!LOADED_SASS_EL) {
       await showWebflowError(ERROR_TEXTS.sassDomNotFound);
       await createNewSassDOM();
       return;
     }
 
-    const sassEl = loadedEl;
+    const sassEl = LOADED_SASS_EL;
 
     if (!sassEl.textContent) {
       await showWebflowError(ERROR_TEXTS.sassDomCantUpdate);
@@ -64,7 +65,7 @@
 
     const filenames = getFilenamesWithExtension(filenameInputVal);
 
-    const compiledCode = await getCompiledCodeFromEditor();
+    const compiledCode = await getCompiledCodeFromEditor(CODEMIRROR_INSTANCE);
     if (!compiledCode) {
       return;
     }
@@ -130,6 +131,11 @@
   }
 
   export async function createNewSassDOM() {
+    const compiledCode = await getCompiledCodeFromEditor(CODEMIRROR_INSTANCE);
+    if (!compiledCode) {
+      return;
+    }
+
     const selectedEl = await webflow.getSelectedElement();
     if (
       !selectedEl ||
@@ -138,11 +144,6 @@
         ('template' === selectedEl.getTag() || 'style' === selectedEl.getTag()))
     ) {
       await showWebflowError(ERROR_TEXTS.invalidCodeElParent);
-      return;
-    }
-
-    const compiledCode = await getCompiledCodeFromEditor();
-    if (!compiledCode) {
       return;
     }
 
@@ -167,8 +168,8 @@
       await selectedEl.save();
 
       // change mode to continue updating the same Sass and CSS files.
-      editMode.set('load');
-      loadedEl.set(newSassEl);
+      EDITOR_FILE_TYPE = 'load';
+      LOADED_SASS_EL = newSassEl;
 
       await showWebflowSuccessfulSave();
     } catch (err) {
@@ -272,12 +273,22 @@
     <button type="submit" class="button">Save</button>
   </div>
 
-  <Editor />
+  <Editor bind:CODEMIRROR_INSTANCE />
 
   <div class="form_bottom-actions">
     <div class="form_bottom-newfile-wrapper">
-      <SassLoadButton bind:filename={filenameInputVal} />
-      <NewEditorFileLink />
+      <SassLoadButton
+        bind:filename={filenameInputVal}
+        bind:EDITOR_FILE_TYPE
+        bind:LOADED_SASS_EL
+        {CODEMIRROR_INSTANCE}
+      />
+      <NewEditorFileLink
+        bind:filename={filenameInputVal}
+        bind:EDITOR_FILE_TYPE
+        bind:LOADED_SASS_EL
+        {CODEMIRROR_INSTANCE}
+      />
     </div>
   </div>
 </form>

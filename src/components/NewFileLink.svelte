@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { getContext } from 'svelte';
   import { getNewEditorState } from './Editor.svelte';
-  import {
-    CODEMIRROR_INSTANCE_CONTEXT_KEY,
-    SASS_LOADED_EL_CONTEXT_KEY,
-    type LoadedSassContextValue,
-  } from '../js/contexts';
   import type { EditorView } from 'codemirror';
+  import type { EditorFileTypes, LoadedSassEl } from './EditorForm.svelte';
+
+  export let filename: string;
+  export let CODEMIRROR_INSTANCE: EditorView;
+  export let LOADED_SASS_EL: LoadedSassEl;
+  export let EDITOR_FILE_TYPE: EditorFileTypes;
 
   let isConfirmationStage = false;
 
@@ -26,19 +26,14 @@
   }
 
   function editorResetConfirm(event: Event) {
-    getContext<EditorView>({
-      CODEMIRROR_INSTANCE_CONTEXT_KEY,
-    }).setState(getNewEditorState());
-
-    getContext<LoadedSassContextValue>({ SASS_LOADED_EL_CONTEXT_KEY }).el.set(
-      null
-    );
-
-    // window.CODEMIRROR_INSTANCE.setState(getNewEditorState());
+    CODEMIRROR_INSTANCE.setState(getNewEditorState());
+    LOADED_SASS_EL = null;
+    filename = '';
+    EDITOR_FILE_TYPE = 'new';
   }
 </script>
 
-{#if isConfirmationStage}
+{#if !isConfirmationStage}
   <button class="button-link" on:click={editorResetInit}
     >Start a new file</button
   >
