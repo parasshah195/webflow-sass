@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import { compileStringAsync as sassAsyncCompile } from 'sass';
+  import * as sass from 'sass';
 
   interface ProcessedCode {
     sass: string;
@@ -35,9 +35,8 @@
 
     let compiledCSS = '';
 
-    // run sass lib on it, error check
     try {
-      const sassCompiled = await sassAsyncCompile(sassCode, {
+      const sassCompiled = sass.compileString(sassCode, {
         style: 'compressed',
         quietDeps: true,
       });
