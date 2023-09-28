@@ -19,7 +19,6 @@
     webflowSelectedElUnsub = webflow.subscribe(
       'selectedelement',
       (selectedEl) => {
-        console.log('element change trigger', 'sass app');
         if (
           !selectedEl ||
           'DOM' !== selectedEl.type ||
