@@ -1,36 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 @import 'webflow-colors';
+
+@mixin link {
+  color: var(--blueText);
+
+  &:hover {
+    color: var(--blueIcon);
+  }
+}
 
 body {
   margin: 0;
   background: var(--background1);
+  color: var(--text1);
   font-family: var(--font-stack);
+  font-size: 12px;
   height: 100%;
+  line-height: 1.5;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 8px;
+}
+
+a {
+  @include link();
+  text-decoration: none;
+}
+
+form * {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input {
+  background-color: var(--background4);
+  padding: 4px;
+  line-height: 1.5;
+  color: var(--text2);
+  border: 1px solid var(--border3);
+  border-radius: 2px;
+
+  &:placeholder {
+    color: var(--text4);
+  }
+
+  &:focus {
+    border-color: var(--blueBorder);
+    outline: none;
+  }
+
+  // &:invalid {
+  //   border-color: var(--redBorder);
+  // }
+}
+
+button {
+  color: var(--text1);
+  background: var(--actionSecondaryBackground);
+  padding: 4px 8px;
+  border: 1px solid var(--border1);
+  border-radius: 2px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--actionSecondaryBackgroundHover);
+    color: var(--actionSecondaryTextHover);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--blueBorder);
+  }
+
+  &:disabled {
+    background-color: var(--backgroundInactive);
+    color: var(--textInactive);
+  }
+
+  &.button-primary {
+    color: var(--actionPrimaryText);
+    background-color: var(--actionPrimaryBackground);
+
+    &:hover {
+      color: var(--actionPrimaryTextHover);
+      background-color: var(--actionPrimaryBackgroundHover);
+    }
+  }
+
+  &.button-ghost {
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover {
+      background-color: var(--background2);
+    }
+
+    &:focus {
+      border-color: var(--blueBorder);
+    }
+  }
+
+  &.button-link {
+    @include link();
+    background-color: transparent;
+    border-color: transparent;
+
+    &:focus {
+      border-color: var(--blueBorder);
+    }
+  }
+}
+
+a,
+button {
+  &.has-arrow {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+main {
+  position: relative;
+}
+
+p,
+ul li,
+ol li {
+  margin-bottom: 1em;
+}
+
+.note {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: var(--background3);
+  color: var(--text2);
+  padding: 8px;
+  margin-bottom: 8px;
+
+  .note-title {
+    color: var(--actionPrimaryText);
+  }
+
+  .note-links-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  ul {
+    padding-left: 16px;
+  }
 }
 
 .form_component {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 8px;
   color: #fff;
-}
 
-button {
-  color: #fff;
-  background: var(--actionPrimaryBackground);
-  padding: 4px 8px;
-  border: 2px solid var(--actionPrimaryBackground);
-  border-radius: 4px;
+  .form_top-area,
+  .form_bottom-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 
-  &:focus {
-    outline: none;
-    border-color: var(--actionPrimaryBackgroundHover);
+  .form_bottom-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: end;
+  }
+
+  .code-editor {
+    font-size: 12px;
+    height: 100%;
+    overflow: auto;
   }
 }
 
-#sass-editor {
-  height: 100%;
-  overflow: auto;
+.page-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.page-content {
+  margin-top: 12px;
 }
