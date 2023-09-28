@@ -21,8 +21,6 @@ export async function showWebflowSuccessfulSave() {
 
 export const ERROR_TEXTS = {
   emptyFile: "Can't save an empty file",
-  sassDomNotFound:
-    'Unable to locate current Sass DOM element. Creating a new one',
   sassDomCantUpdate:
     'Unable to update the current Sass element. Please copy the Sass code, and start a new file',
   invalidCodeElParent:
@@ -37,6 +35,8 @@ export const ERROR_TEXTS = {
 
 export const INFO_TEXTS = {
   cssUpdateError: 'Unable to update CSS element. Creating a new one.',
+  sassDomNotFound:
+    'Unable to locate current Sass DOM element. Creating a new one',
 };
 
 export async function showCssElNotFoundErrors() {

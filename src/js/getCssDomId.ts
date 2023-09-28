@@ -1,14 +1,10 @@
-interface ExistingCSSEl {
-  domID: string;
-}
-
-export const CSS_DOM_ID_ATTRIBUTE = 'data-css-dom-id';
+export const CSS_DOM_ID_ATTRIBUTE = 'data-css-el-id';
 
 /**
  * @param currentEl reference to current selected webflow element
  * @returns If CSS DOM ID attribute is present on the Sass element, then returns its value in an object, else, `false`
  */
-export function getCssDomId(currentEl: AnyElement): ExistingCSSEl | false {
+export function getCssDomId(currentEl: AnyElement): string | false {
   if ('DOM' !== currentEl.type) {
     return false;
   } else {
@@ -18,8 +14,6 @@ export function getCssDomId(currentEl: AnyElement): ExistingCSSEl | false {
       return false;
     }
 
-    return {
-      domID: cssDomId,
-    };
+    return cssDomId;
   }
 }

@@ -19,6 +19,7 @@
   import { getFilenamesWithExtension } from '../js/filename.js';
   import { getCssDomId, CSS_DOM_ID_ATTRIBUTE } from '../js/getCssDomId.js';
   import type { EditorView } from 'codemirror';
+  import { getWebflowElByID } from '../js/getWebflowElByID';
 
   let filenameInputVal: string;
 
@@ -48,15 +49,14 @@
   }
 
   export async function updateSass() {
-    if (!LOADED_SASS_EL) {
-      await showWebflowError(ERROR_TEXTS.sassDomNotFound);
+    if (!LOADED_SASS_EL || !(await getWebflowElByID(LOADED_SASS_EL.id))) {
+      LOADED_SASS_EL = null;
+      await showWebflowError(INFO_TEXTS.sassDomNotFound);
       await createNewSassDOM();
       return;
     }
 
-    const sassEl = LOADED_SASS_EL;
-
-    if (!sassEl.textContent) {
+    if (!LOADED_SASS_EL.textContent) {
       await showWebflowError(ERROR_TEXTS.sassDomCantUpdate);
       return;
     }
@@ -69,12 +69,16 @@
     }
 
     // set scss
-    sassEl.setTextContent(compiledCode.sass);
-    await addStyle(filenames.scss, sassEl);
-    await sassEl.save();
+    try {
+      LOADED_SASS_EL.setTextContent(compiledCode.sass);
+      await addStyle(filenames.scss, LOADED_SASS_EL);
+      await LOADED_SASS_EL.save();
+    } catch (err) {
+      console.error(err);
+    }
 
     // set css
-    const cssDomId = getCssDomId(sassEl);
+    const cssDomId = getCssDomId(LOADED_SASS_EL);
     const currentSelectedEl = await webflow.getSelectedElement();
 
     if (!currentSelectedEl) {
@@ -84,15 +88,12 @@
 
     if (cssDomId) {
       // find the CSS element and update
-      const allElements = await webflow.getAllElements();
-      const currentCssEl = allElements.find(
-        (el) => el.id === cssDomId.domID
-      ) as DOMElement;
+      const currentCssEl = await getWebflowElByID(cssDomId);
 
       if (!currentCssEl) {
         await createNewCSSElForSass(
           currentSelectedEl,
-          sassEl,
+          LOADED_SASS_EL,
           compiledCode.css
         );
         return;
@@ -102,7 +103,7 @@
         showWebflowInfoMessage(INFO_TEXTS.cssUpdateError);
         await createNewCSSElForSass(
           currentSelectedEl,
-          sassEl,
+          LOADED_SASS_EL,
           compiledCode.css
         );
         return;
@@ -126,7 +127,11 @@
         return;
       }
 
-      createNewCSSElForSass(currentSelectedEl, sassEl, compiledCode.css);
+      createNewCSSElForSass(
+        currentSelectedEl,
+        LOADED_SASS_EL,
+        compiledCode.css
+      );
       await showWebflowSuccessfulSave();
       return;
     }
@@ -274,6 +279,8 @@
       type="text"
       name="filename"
       placeholder="Enter filename (E.g: 'Global Styles')"
+      required
+      pattern="^[\w\s\-_]*$"
       bind:value={filenameInputVal}
     />
 
