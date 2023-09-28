@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
 
   import { ERROR_TEXTS, showWebflowError } from '../js/webflowNotify';
   import { removeFilenameExtension } from '../js/filename';
@@ -13,21 +13,29 @@
   export let EDITOR_FILE_TYPE: EditorFileTypes;
   export let LOADED_SASS_EL: LoadedSassEl;
 
-  onMount(() => {
-    // TODO: check if unsubscribe necessary on component destroy
-    webflow.subscribe('selectedelement', (selectedEl) => {
-      console.log('element change trigger', 'sass app');
-      if (
-        !selectedEl ||
-        'DOM' !== selectedEl.type ||
-        'template' !== selectedEl.getTag()
-      ) {
-        clickable = false;
-        return;
-      }
+  let webflowSelectedElUnsub: () => undefined;
 
-      clickable = true;
-    });
+  onMount(() => {
+    webflowSelectedElUnsub = webflow.subscribe(
+      'selectedelement',
+      (selectedEl) => {
+        console.log('element change trigger', 'sass app');
+        if (
+          !selectedEl ||
+          'DOM' !== selectedEl.type ||
+          'template' !== selectedEl.getTag()
+        ) {
+          clickable = false;
+          return;
+        }
+
+        clickable = true;
+      }
+    );
+  });
+
+  onDestroy(() => {
+    webflowSelectedElUnsub();
   });
 
   async function loadSass() {
