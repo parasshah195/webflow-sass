@@ -18,8 +18,6 @@
   } from '../js/webflowNotify.js';
   import { getFilenamesWithExtension } from '../js/filename.js';
   import { getCssDomId, CSS_DOM_ID_ATTRIBUTE } from '../js/getCssDomId.js';
-  import { getContext, setContext } from 'svelte';
-  import { writable } from 'svelte/store';
   import type { EditorView } from 'codemirror';
 
   let filenameInputVal: string;
