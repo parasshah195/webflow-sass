@@ -58,7 +58,6 @@ button {
   border-radius: 2px;
   cursor: pointer;
   
-
   &:hover {
     background-color: var(--actionSecondaryBackgroundHover);
     color: var(--actionSecondaryTextHover);
@@ -84,15 +83,27 @@ button {
     }
   }
 
+  &.button-ghost {
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover {
+      background-color: var(--background2);
+    }
+
+    &:focus {
+      border-color: var(--blueBorder);
+    }
+  }
+
   &.button-link {
     @include link();
-    // color: var(--blueText);
     background-color: transparent;
-    border: none;
+    border-color: transparent;
 
-    // &:hover {
-    //   color: var(--blueIcon);
-    // }
+    &:focus {
+      border-color: var(--blueBorder);
+    }
   }
 }
 

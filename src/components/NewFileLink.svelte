@@ -37,9 +37,9 @@
 </script>
 
 {#if !isConfirmationStage}
-  <button class="button-link" on:click={editorResetInit}
+  <button class="button-ghost" on:click={editorResetInit}
     >Start a new file</button
   >
 {:else}
-  <button class="button-link" on:click={editorResetConfirm}>Sure?</button>
+  <button class="button-ghost" on:click={editorResetConfirm}>Sure?</button>
 {/if}
