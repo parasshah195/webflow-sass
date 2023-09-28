@@ -23,14 +23,14 @@
 
   /**
    * Get Sass from editor and compile it to CSS
-   * Shows Weblow errors when required
+   * This function is responsible for showing webflow error notifications
+   * @returns Compiled code or `false` if any error
    */
   export async function getCompiledCodeFromEditor(
     CODEMIRROR_INSTANCE: EditorView
   ): Promise<ProcessedCode | false> {
-    const sassCode = CODEMIRROR_INSTANCE.state.doc
-      .toString()
-      .replace(/[\n\r]/g, '');
+    const sassCode = CODEMIRROR_INSTANCE.state.doc.toString();
+    // .replace(/[\n\r]/g, '');
 
     if (!sassCode || '' === sassCode) {
       await showWebflowError(ERROR_TEXTS.emptyFile);

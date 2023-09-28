@@ -3,8 +3,6 @@
 
   import { ERROR_TEXTS, showWebflowError } from '../js/webflowNotify';
   import { removeFilenameExtension } from '../js/filename';
-  import { format } from 'prettier/standalone.js';
-  import parserPostcss from 'prettier/parser-postcss';
   import { getNewEditorState } from './Editor.svelte';
   import type { EditorView } from 'codemirror';
   import type { EditorFileTypes, LoadedSassEl } from './EditorForm.svelte';
@@ -16,7 +14,9 @@
   export let LOADED_SASS_EL: LoadedSassEl;
 
   onMount(() => {
+    // TODO: check if unsubscribe necessary on component destroy
     webflow.subscribe('selectedelement', (selectedEl) => {
+      console.log('element change trigger', 'sass app');
       if (
         !selectedEl ||
         'DOM' !== selectedEl.type ||
@@ -59,12 +59,7 @@
     }
 
     const currentSassContent = currentSassStringEl.getText();
-    const formattedSass = await format(currentSassContent, {
-      parser: 'scss',
-      plugins: [parserPostcss],
-    });
-
-    CODEMIRROR_INSTANCE.setState(getNewEditorState(formattedSass));
+    CODEMIRROR_INSTANCE.setState(getNewEditorState(currentSassContent));
   }
 </script>
 
