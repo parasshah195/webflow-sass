@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContext, onMount } from 'svelte';
+  import { onMount } from 'svelte';
 
   import { ERROR_TEXTS, showWebflowError } from '../js/webflowNotify';
   import { removeFilenameExtension } from '../js/filename';
