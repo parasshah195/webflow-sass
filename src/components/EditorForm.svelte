@@ -4,6 +4,7 @@
 </script>
 
 <script lang="ts">
+  import { url } from '@roxi/routify';
   import Editor, { getCompiledCodeFromEditor } from './Editor.svelte';
   import NewEditorFileLink from './NewFileLink.svelte';
   import SassLoadButton from './LoadSassButton.svelte';
@@ -305,6 +306,10 @@
         bind:LOADED_SASS_EL
         {CODEMIRROR_INSTANCE}
       />
+    </div>
+    <div class="form_bottom-links">
+      <a href={$url('./info/note')}>App Notes</a>
+      <a href={$url('./info/credits')}>Credits and License</a>
     </div>
   </div>
 </form>
