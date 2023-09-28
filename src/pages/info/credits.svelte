@@ -9,7 +9,7 @@
   <div class="note">
     <div class="note-title">App by Paras Shah</div>
     <div class="note-links-wrapper">
-      <a href="https://heyparas.com" target="_blank" class="has-arrow"
+      <a href="https://paras.sh" target="_blank" class="has-arrow"
         >About <ChevronRight /></a
       >
     </div>
