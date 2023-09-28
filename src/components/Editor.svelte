@@ -37,39 +37,24 @@
       return false;
     }
 
-    // try {
-    let sassCompileErrorLog = '';
-    console.log('compile string');
-    const sassCompiled = sass.compileString(sassCode, {
-      style: 'compressed',
-      quietDeps: true,
-      logger: {
-        // BUGFIX: Logger doesn't seem to be working. Sass error triggers before that
-        warn(message, options) {
-          console.log('sass logger!');
-          if (options.span) {
-            sassCompileErrorLog +=
-              `@Line ${options.span.start.line}, Column ${options.span.start.column}. ` +
-              `${message}\n`;
-          } else {
-            sassCompileErrorLog += `::: ${message}\n`;
-          }
-        },
-      },
-    });
+    let sassCompiled: sass.CompileResult;
 
-    if ('' !== sassCompileErrorLog) {
-      console.log('found error');
-      await showWebflowError(sassCompileErrorLog);
-      console.error(sassCompileErrorLog);
+    try {
+      sassCompiled = sass.compileString(sassCode, {
+        style: 'compressed',
+        quietDeps: true,
+      });
+    } catch (err) {
+      const error = err as sass.Exception;
+
+      const friendlyLog = `Sass code error: \n${error.sassMessage} @ line ${
+        error.span.start.line + 1
+      }:col ${error.span.start.column}`;
+      await showWebflowError(friendlyLog);
+
+      console.error(error.message);
       return false;
     }
-
-    // } catch (err) {
-    //   await showWebflowError((err as Error).message);
-    //   console.error(err);
-    //   return false;
-    // }
 
     return {
       sass: sassCode,
