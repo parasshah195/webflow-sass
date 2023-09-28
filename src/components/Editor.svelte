@@ -3,7 +3,7 @@
   import { EditorView, basicSetup } from 'codemirror';
   import { EditorState } from '@codemirror/state';
   import { oneDark } from '@codemirror/theme-one-dark';
-  import { sass as sassEditorLang } from '../js/codemirrorSass';
+  import { sass as sassEditorLang } from '@codemirror/lang-sass';
 
   interface ProcessedCode {
     sass: string;
