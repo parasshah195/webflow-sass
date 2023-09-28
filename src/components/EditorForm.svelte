@@ -274,23 +274,25 @@
 </script>
 
 <form class="form_component" on:submit|preventDefault={processSass}>
-  <div class="form_top-actions">
+  <div class="form_top-area">
     <input
       type="text"
       name="filename"
       placeholder="Enter filename (E.g: 'Global Styles')"
+      title="Allowed characters - Letters, Numbers, Space, Hyphen, and Underscores"
       required
       pattern="^[\w\s\-_]*$"
+      size="35"
       bind:value={filenameInputVal}
     />
 
-    <button type="submit" class="button">Save</button>
+    <button type="submit" class="button-primary">Save</button>
   </div>
 
   <Editor bind:CODEMIRROR_INSTANCE />
 
-  <div class="form_bottom-actions">
-    <div class="form_bottom-newfile-wrapper">
+  <div class="form_bottom-area">
+    <div>
       <SassLoadButton
         bind:filename={filenameInputVal}
         bind:EDITOR_FILE_TYPE
