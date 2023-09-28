@@ -1,0 +1,35 @@
+body {
+  text-align: center;
+}
+body > #container {
+  text-align: left;
+  margin: 0 auto;
+  width: 500px;
+}
+header h1 {
+  font-size: 26px;
+  margin-bottom: 26px;
+}
+div[role='main'] {
+  margin-bottom: 25px;
+}
+div[role='main'] ul {
+  padding-top: 14px;
+}
+div[role='main'] li {
+  margin-bottom: 12px;
+}
+button button {
+  border: 1px solid #acbed3;
+  padding: 3px 14px;
+  font-size: 12px;
+  color: #3b557d;
+  cursor: pointer;
+}
+button button.primary {
+  border: 2px solid #3b557d;
+  padding: 5px 15px;
+}
+button button.disabled {
+  opacity: 0.8;
+}
