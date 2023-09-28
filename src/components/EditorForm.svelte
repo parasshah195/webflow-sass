@@ -287,7 +287,7 @@
       bind:value={filenameInputVal}
     />
 
-    <button type="submit" class="button-primary">Save</button>
+    <button type="submit" class="button-primary">Compile & Save Code</button>
   </div>
 
   <Editor bind:CODEMIRROR_INSTANCE />

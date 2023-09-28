@@ -1,13 +1,8 @@
-<div class="page-title">Codemirror License - MIT</div>
+<div class="page-title">Sass License - MIT</div>
 
 <div class="page-content">
   <div class="note">
-    <p>
-      Copyright (C) 2018 by Marijn Haverbeke <marijn@haverbeke.berlin
-        >, Adrian Heine <mail@adrianheine.de>, and others</mail@adrianheine.de
-        ></marijn@haverbeke.berlin
-      >
-    </p>
+    <p>Copyright (c) 2016, Google Inc.</p>
 
     <p>
       Permission is hereby granted, free of charge, to any person obtaining a

@@ -74,5 +74,5 @@
 <button
   class="button-default"
   disabled={!clickable}
-  on:click|preventDefault={loadSass}>Load selected element Sass</button
+  on:click|preventDefault={loadSass}>Edit selected Sass element code</button
 >
