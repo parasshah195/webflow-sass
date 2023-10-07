@@ -51,9 +51,7 @@
 
   export async function updateSass() {
     if (!LOADED_SASS_EL || !(await getWebflowElByID(LOADED_SASS_EL.id))) {
-      LOADED_SASS_EL = null;
-      await showWebflowError(INFO_TEXTS.sassDomNotFound);
-      await createNewSassDOM();
+      await showWebflowError(ERROR_TEXTS.sassDomNotFound);
       return;
     }
 
@@ -245,6 +243,13 @@
 
 <form class="form_component" on:submit|preventDefault={processSass}>
   <div class="form_top-area">
+    <SassLoadButton
+      bind:filename={filenameInputVal}
+      bind:EDITOR_FILE_TYPE
+      bind:LOADED_SASS_EL
+      {CODEMIRROR_INSTANCE}
+    />
+
     <input
       type="text"
       name="filename"
@@ -255,20 +260,16 @@
       size="35"
       bind:value={filenameInputVal}
     />
-
-    <button type="submit" class="button-primary">Compile & Save Code</button>
   </div>
 
   <Editor bind:CODEMIRROR_INSTANCE />
 
+  <button type="submit" class="button-primary">Compile & Save Code</button>
+
+  <hr />
+
   <div class="form_bottom-area">
-    <div class="form_bottom-column is-action-buttons">
-      <SassLoadButton
-        bind:filename={filenameInputVal}
-        bind:EDITOR_FILE_TYPE
-        bind:LOADED_SASS_EL
-        {CODEMIRROR_INSTANCE}
-      />
+    <div class="form_bottom-column is-action-button">
       <NewEditorFileLink
         bind:filename={filenameInputVal}
         bind:EDITOR_FILE_TYPE
@@ -276,9 +277,10 @@
         {CODEMIRROR_INSTANCE}
       />
     </div>
+
     <div class="form_bottom-column is-links">
-      <a href="{base}/notes">App Notes</a>
-      <a href="{base}/credits">Credits and License</a>
+      <a href="{base}/notes">Notes & Error Actions</a>
+      <a href="{base}/credits">Credits & License</a>
     </div>
   </div>
 </form>

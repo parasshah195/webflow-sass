@@ -20,21 +20,21 @@ export async function showWebflowSuccessfulSave() {
 }
 
 export const ERROR_TEXTS = {
-  emptyFile: "Can't save an empty file",
+  emptyFile: "Can't save an empty code file",
+  sassDomNotFound:
+    'Unable to locate current .scss element. Is it in a component? \n\nCheck Error notes for next steps',
   sassDomCantUpdate:
-    'Unable to update the current Sass element. Please copy the Sass code, and start a new file',
+    'Unable to update the current .scss element. \n\nCopy this code and start a new code file',
   invalidCodeElParent: 'Select a proper element to nest the Sass and compiled CSS code',
-  invalidCssParent:
-    'Please select the correct parent element which has the .scss element, then save again',
-  invalidSassElLoad: 'Please select the correct Sass code element to load',
+  invalidCssParent: 'Please select the parent element which has the .scss element, then save again',
+  invalidSassElLoad: 'This does not look like a valid .scss code element',
   sassLoadNoCode: 'No Sass code found on this element',
-  cssElNotFound: 'Unable to find the previous CSS Element',
+  cssElNotFound: 'Unable to find existing .css element',
   missingFilename: 'Please enter a filename'
 };
 
 export const INFO_TEXTS = {
-  cssUpdateError: 'Unable to update CSS element. Creating a new one.',
-  sassDomNotFound: 'Unable to locate current Sass DOM element. Creating a new one'
+  cssUpdateError: 'Unable to update CSS element. Creating a new one.'
 };
 
 export async function showCssElNotFoundErrors() {
