@@ -86,8 +86,10 @@
     const editorEl = editorWrapperEl.children[0] as HTMLElement;
     const documentHeight = document.documentElement.clientHeight;
 
-    editorEl.style.height = `${documentHeight - 100}px`;
+    editorEl.style.height = `${documentHeight - 120}px`;
   }
 </script>
 
-<div class="code-editor" bind:this={editorWrapperEl} on:resize={updateEditorHeight} />
+<svelte:window on:resize={updateEditorHeight} />
+
+<div class="code-editor" bind:this={editorWrapperEl} />
