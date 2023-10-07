@@ -22,6 +22,19 @@ body {
   padding: 8px;
 }
 
+h1 , h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text1);
+  margin-bottom: 1em;
+}
+h1 , h2, h3 {
+  font-size: 12px;
+}
+h4, h5, h6 {
+  font-size: 11px;
+}
+
 a {
   @include link();
   text-decoration: none;
@@ -68,8 +81,9 @@ button {
     color: var(--actionSecondaryTextHover);
   }
 
-  &:focus {
+  &:focus, &:focus-visible {
     outline: 1px solid var(--blueBorder);
+    outline-offset: 1px;
   }
 
   &:disabled {
@@ -140,6 +154,13 @@ ol li {
   margin-bottom: 1em;
 }
 
+hr {
+  height: 1px;
+  width: 100%;
+  background: var(--border1);
+  border: none;
+}
+
 .note {
   display: flex;
   flex-direction: column;
@@ -167,6 +188,7 @@ ol li {
 .form_component {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 8px;
   color: #fff;
 
@@ -182,15 +204,12 @@ ol li {
   .form_bottom-column {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-
-    &.is-action-buttons {
-      flex: 1 0 auto;
-    }
+    gap: 8px;
 
     &.is-links {
-      flex-direction: column;
-      align-items: end;
+      gap: 16px;
+      flex: 1 0 auto;
+      justify-content: end;
     }
   }
 
@@ -201,18 +220,24 @@ ol li {
   }
 }
 
-.page-title {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 0;
-  margin: 0 auto;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 500;
+.page-wrapper {
+  position: relative;
+  margin-top: 4px;
+
+  .page-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .page-content {
+    margin-top: 8px;
+  }
 }
 
-.page-content {
-  margin-top: 12px;
-}

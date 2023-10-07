@@ -4,14 +4,15 @@
 </script>
 
 <main>
-  <a class="has-arrow" href="{base}/">
-    <ChevronLeft />
-    Back to the app
-  </a>
-
-  <slot>
-    <!-- Page content will be rendered here -->
-  </slot>
+  <div class="page-wrapper">
+    <a class="has-arrow" href="{base}/">
+      <ChevronLeft />
+      Back to the app
+    </a>
+    <slot>
+      <!-- Page content will be rendered here -->
+    </slot>
+  </div>
 </main>
 
 <style>
