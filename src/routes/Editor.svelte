@@ -5,6 +5,11 @@
   import { oneDark } from '@codemirror/theme-one-dark';
   import { sass as sassEditorLang } from '@codemirror/lang-sass';
 
+  interface ProcessedCode {
+    sass: string;
+    css: string;
+  }
+
   // TODO: add "Tab" key support for the editor
 
   /**
