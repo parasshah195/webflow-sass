@@ -1,13 +1,11 @@
-export function getFilenamesWithExtension(
-  filenameInputValue: string
-): FilenameObject {
+export function getFilenamesWithExtension(filenameInputValue: string): FilenameObject {
   if (!filenameInputValue) {
     filenameInputValue = 'unnamed';
   }
 
   return {
     scss: filenameInputValue + '.scss',
-    css: filenameInputValue + '.css',
+    css: filenameInputValue + '.css'
   };
 }
 

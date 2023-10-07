@@ -10,7 +10,7 @@ import {
   continuedIndent,
   foldNodeProp,
   foldInside,
-  LanguageSupport,
+  LanguageSupport
 } from '@codemirror/language';
 import { defineCSSCompletionSource } from '@codemirror/lang-css';
 
@@ -26,35 +26,32 @@ export const sassLanguage = LRLanguage.define({
         Comment(node, state) {
           return {
             from: node.from + 2,
-            to:
-              state.sliceDoc(node.to - 2, node.to) == '*/'
-                ? node.to - 2
-                : node.to,
+            to: state.sliceDoc(node.to - 2, node.to) == '*/' ? node.to - 2 : node.to
           };
-        },
+        }
       }),
       indentNodeProp.add({
-        Declaration: continuedIndent(),
-      }),
-    ],
+        Declaration: continuedIndent()
+      })
+    ]
   }),
   languageData: {
     commentTokens: { block: { open: '/*', close: '*/' } },
     indentOnInput: /^\s*\}$/,
-    wordChars: '$-',
-  },
+    wordChars: '$-'
+  }
 });
 
 const indentedSassLanguage = sassLanguage.configure({
   dialect: 'indented',
   props: [
     indentNodeProp.add({
-      'Block RuleSet': (cx) => cx.baseIndent + cx.unit,
+      'Block RuleSet': (cx) => cx.baseIndent + cx.unit
     }),
     foldNodeProp.add({
-      Block: (node) => ({ from: node.from, to: node.to }),
-    }),
-  ],
+      Block: (node) => ({ from: node.from, to: node.to })
+    })
+  ]
 });
 
 /// Property, variable, $-variable, and value keyword completion
