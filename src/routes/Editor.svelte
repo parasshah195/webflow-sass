@@ -72,6 +72,7 @@
   export let CODEMIRROR_INSTANCE: EditorView;
 
   let editorWrapperEl: HTMLDivElement;
+  let editorEl: HTMLElement;
 
   onMount(() => {
     CODEMIRROR_INSTANCE = new EditorView({
@@ -79,14 +80,17 @@
       state: getNewEditorState()
     });
 
+    editorEl = editorWrapperEl.children[0] as HTMLElement;
+
     updateEditorHeight();
   });
 
   function updateEditorHeight() {
-    const editorEl = editorWrapperEl.children[0] as HTMLElement;
     const documentHeight = document.documentElement.clientHeight;
 
-    editorEl.style.height = `${documentHeight - 120}px`;
+    if (editorEl) {
+      editorEl.style.height = `${documentHeight - 120}px`;
+    }
   }
 </script>
 
