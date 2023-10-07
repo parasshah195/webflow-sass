@@ -1,88 +1,101 @@
 <script context="module" lang="ts">
-	import * as sass from 'sass';
-	import { EditorView, basicSetup } from 'codemirror';
-	import { EditorState } from '@codemirror/state';
-	import { oneDark } from '@codemirror/theme-one-dark';
-	import { sass as sassEditorLang } from '@codemirror/lang-sass';
+  import * as sass from 'sass';
+  import { EditorView, basicSetup } from 'codemirror';
+  import { keymap } from '@codemirror/view';
+  import { EditorState } from '@codemirror/state';
+  import { oneDark } from '@codemirror/theme-one-dark';
+  import { indentWithTab } from '@codemirror/commands';
+  import { sass as sassEditorLang } from '@codemirror/lang-sass';
 
-	// TODO: add "Tab" key support for the editor
+  interface ProcessedCode {
+    sass: string;
+    css: string;
+  }
 
-	/**
-	 * Returns a new Sass editor state
-	 * @param initText the text that the new state shall initialize with. Default empty string
-	 */
-	export function getNewEditorState(initText = '') {
-		return EditorState.create({
-			doc: initText,
-			extensions: [basicSetup, sassEditorLang(), oneDark]
-		});
-	}
+  // TODO: add "Tab" key support for the editor
 
-	/**
-	 * Get Sass from editor and compile it to CSS
-	 * This function is responsible for showing webflow error notifications
-	 * @returns Compiled code or `false` if any error
-	 */
-	export async function getCompiledCodeFromEditor(
-		CODEMIRROR_INSTANCE: EditorView
-	): Promise<ProcessedCode | false> {
-		const sassCode = CODEMIRROR_INSTANCE.state.doc.toString();
-		// .replace(/[\n\r]/g, '');
+  /**
+   * Returns a new Sass editor state
+   * @param initText the text that the new state shall initialize with. Default empty string
+   */
+  export function getNewEditorState(initText = '') {
+    return EditorState.create({
+      doc: initText,
+      extensions: [basicSetup, sassEditorLang(), oneDark, keymap.of([indentWithTab])]
+    });
+  }
 
-		if (!sassCode || '' === sassCode) {
-			await showWebflowError(ERROR_TEXTS.emptyFile);
-			return false;
-		}
+  /**
+   * Get Sass from editor and compile it to CSS
+   * This function is responsible for showing webflow error notifications
+   * @returns Compiled code or `false` if any error
+   */
+  export async function getCompiledCodeFromEditor(
+    CODEMIRROR_INSTANCE: EditorView
+  ): Promise<ProcessedCode | false> {
+    const sassCode = CODEMIRROR_INSTANCE.state.doc.toString();
+    // .replace(/[\n\r]/g, '');
 
-		let sassCompiled: sass.CompileResult;
+    if (!sassCode || '' === sassCode) {
+      await showWebflowError(ERROR_TEXTS.emptyFile);
+      return false;
+    }
 
-		try {
-			sassCompiled = sass.compileString(sassCode, {
-				style: 'compressed',
-				quietDeps: true
-			});
-		} catch (err) {
-			const error = err as sass.Exception;
+    let sassCompiled: sass.CompileResult;
 
-			const friendlyLog = `Sass code error: \n${error.sassMessage} @ line ${
-				error.span.start.line + 1
-			}:col ${error.span.start.column}`;
-			await showWebflowError(friendlyLog);
+    try {
+      sassCompiled = sass.compileString(sassCode, {
+        style: 'compressed',
+        quietDeps: true
+      });
+    } catch (err) {
+      const error = err as sass.Exception;
 
-			console.error(error.message);
-			return false;
-		}
+      const friendlyLog = `Sass code error: \n${error.sassMessage} @ line ${
+        error.span.start.line + 1
+      }:col ${error.span.start.column}`;
+      await showWebflowError(friendlyLog);
 
-		return {
-			sass: sassCode,
-			css: sassCompiled.css
-		};
-	}
+      console.error(error.message);
+      return false;
+    }
+
+    return {
+      sass: sassCode,
+      css: sassCompiled.css
+    };
+  }
 </script>
 
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { ERROR_TEXTS, showWebflowError } from '$lib/js/webflowNotify';
+  import { onMount } from 'svelte';
+  import { ERROR_TEXTS, showWebflowError } from '$lib/js/webflowNotify';
 
-	export let CODEMIRROR_INSTANCE: EditorView;
+  export let CODEMIRROR_INSTANCE: EditorView;
 
-	let editorWrapperEl: HTMLDivElement;
+  let editorWrapperEl: HTMLDivElement;
+  let editorEl: HTMLElement;
 
-	onMount(() => {
-		CODEMIRROR_INSTANCE = new EditorView({
-			parent: editorWrapperEl,
-			state: getNewEditorState()
-		});
+  onMount(() => {
+    CODEMIRROR_INSTANCE = new EditorView({
+      parent: editorWrapperEl,
+      state: getNewEditorState()
+    });
 
-		updateEditorHeight();
-	});
+    editorEl = editorWrapperEl.children[0] as HTMLElement;
 
-	function updateEditorHeight() {
-		const editorEl = editorWrapperEl.children[0] as HTMLElement;
-		const documentHeight = document.documentElement.clientHeight;
+    updateEditorHeight();
+  });
 
-		editorEl.style.height = `${documentHeight - 100}px`;
-	}
+  function updateEditorHeight() {
+    const documentHeight = document.documentElement.clientHeight;
+
+    if (editorEl) {
+      editorEl.style.height = `${documentHeight - 120}px`;
+    }
+  }
 </script>
 
-<div class="code-editor" bind:this={editorWrapperEl} on:resize={updateEditorHeight} />
+<svelte:window on:resize={updateEditorHeight} />
+
+<div class="code-editor" bind:this={editorWrapperEl} />

@@ -9,9 +9,10 @@ $ pnpm dev
 ```
 
 The above command does a few things:
-* Installs dependencies
-* Watches for changes in the `src/` folder and recompiles your TypeScript files, outputting files under the `dist/` folder
-* Spins up a process that serves your extension files from under `dist/`
+
+- Installs dependencies
+- Watches for changes in the `src/` folder and recompiles your TypeScript files, outputting files under the `dist/` folder
+- Spins up a process that serves your extension files from under `dist/`
 
 The command outputs the URL under which your extension is being served. Use this as the “Development URL” for your app in the Webflow Designer’s Apps panel. You can then launch the extension from the same place.
 
