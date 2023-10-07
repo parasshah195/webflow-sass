@@ -1,10 +1,6 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
+  "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "resolveJsonModule": true,
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.
      * Disable checkJs if you'd like to use dynamic types in JS.
@@ -13,9 +9,38 @@
      */
     "allowJs": true,
     "checkJs": true,
-    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    // "target": "ESNext",
+    // "useDefineForClassFields": true,
+    // "module": "ESNext",
+    // "isolatedModules": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+		"strict": true,
     "types": ["@webflow/designer-extension-typings"]
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  // "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
+  // "references": [{ "path": "./tsconfig.node.json" }]
 }
+
+// New svelte kit options
+// {
+// 	"extends": "./.svelte-kit/tsconfig.json",
+// 	"compilerOptions": {
+// 		"allowJs": true,
+// 		"checkJs": true,
+// 		"esModuleInterop": true,
+// 		"forceConsistentCasingInFileNames": true,
+// 		"resolveJsonModule": true,
+// 		"skipLibCheck": true,
+// 		"sourceMap": true,
+// 		"strict": true
+// 	}
+// 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
+// 	//
+// 	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes
+// 	// from the referenced tsconfig.json - TypeScript does not merge them in
+// }
+

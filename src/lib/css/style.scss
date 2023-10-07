@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
-@import 'webflow-colors';
+@import 'webflow-style-vars';
 
 @mixin link {
   color: var(--blueText);
 
   &:hover {
-    color: var(--blueIcon);
+    color: var(--blueBorder);
   }
 }
 
@@ -33,15 +33,16 @@ form * {
 }
 
 input {
-  background-color: var(--background4);
+  background-color: var(--backgroundInput);
   padding: 4px;
   line-height: 1.5;
-  color: var(--text2);
+  color: var(--text1);
   border: 1px solid var(--border3);
-  border-radius: 2px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--input-inner-shadow);
 
   &:placeholder {
-    color: var(--text4);
+    color: var(--text3);
   }
 
   &:focus {
@@ -57,13 +58,13 @@ input {
 button {
   color: var(--text1);
   background: var(--actionSecondaryBackground);
-  padding: 4px 8px;
+  padding: 4px 4px;
   border: 1px solid var(--border1);
-  border-radius: 2px;
+  border-radius: var(--border-radius);
   cursor: pointer;
 
   &:hover {
-    background-color: var(--actionSecondaryBackgroundHover);
+    background: var(--actionSecondaryBackgroundHover);
     color: var(--actionSecondaryTextHover);
   }
 
@@ -73,26 +74,31 @@ button {
   }
 
   &:disabled {
-    background-color: var(--backgroundInactive);
-    color: var(--textInactive);
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &.button-default {
+    box-shadow: var(--boxShadows-action-secondary);
   }
 
   &.button-primary {
     color: var(--actionPrimaryText);
-    background-color: var(--actionPrimaryBackground);
+    background: var(--actionPrimaryBackground);
+    box-shadow: var(--boxShadows-action-colored);
 
     &:hover {
       color: var(--actionPrimaryTextHover);
-      background-color: var(--actionPrimaryBackgroundHover);
+      background: var(--actionPrimaryBackgroundHover);
     }
   }
 
   &.button-ghost {
-    background-color: transparent;
+    background: transparent;
     border-color: transparent;
 
     &:hover {
-      background-color: var(--background2);
+      background: var(--actionSecondaryBackgroundHover);
     }
 
     &:focus {
@@ -102,7 +108,7 @@ button {
 
   &.button-link {
     @include link();
-    background-color: transparent;
+    background: transparent;
     border-color: transparent;
 
     &:focus {

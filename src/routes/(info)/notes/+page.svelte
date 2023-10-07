@@ -18,6 +18,11 @@
         This plugin and the developer does not provide any support for Sass code
         that you may write here
       </li>
+      <li>
+        The plugin can be used to write normal CSS too. It doesn't necessarily
+        have to be Sass, and you can still take advantage of autocompletion and
+        other IDE features.
+      </li>
     </ul>
   </div>
 </div>
