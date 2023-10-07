@@ -51,8 +51,7 @@
 
   export async function updateSass() {
     if (!LOADED_SASS_EL || !(await getWebflowElByID(LOADED_SASS_EL.id))) {
-      LOADED_SASS_EL = null;
-      await showWebflowError(INFO_TEXTS.sassDomNotFound);
+      await showWebflowError(ERROR_TEXTS.sassDomNotFound);
       await createNewSassDOM();
       return;
     }
@@ -281,7 +280,7 @@
     </div>
 
     <div class="form_bottom-column is-links">
-      <a href="{base}/notes">App Notes</a>
+      <a href="{base}/notes">Notes & Error Actions</a>
       <a href="{base}/credits">Credits & License</a>
     </div>
   </div>
