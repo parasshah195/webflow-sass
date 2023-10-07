@@ -91,7 +91,7 @@
     const documentHeight = document.documentElement.clientHeight;
 
     if (editorEl) {
-      editorEl.style.height = `${documentHeight - 150}px`;
+      editorEl.style.height = `${documentHeight - 145}px`;
     }
   }
 </script>

@@ -22,17 +22,34 @@ body {
   padding: 8px;
 }
 
-h1 , h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 500;
   line-height: 1.4;
   color: var(--text1);
   margin-bottom: 1em;
 }
-h1 , h2, h3 {
+h1,
+h2,
+h3 {
   font-size: 12px;
 }
-h4, h5, h6 {
+h4,
+h5,
+h6 {
   font-size: 11px;
+}
+
+code {
+  background-color: var(--background5);
+  margin-left: 2px;
+  margin-right: 2px;
+  padding: 2px;
+  font-weight: 400;
 }
 
 a {
@@ -81,7 +98,8 @@ button {
     color: var(--actionSecondaryTextHover);
   }
 
-  &:focus, &:focus-visible {
+  &:focus,
+  &:focus-visible {
     outline: 1px solid var(--blueBorder);
     outline-offset: 1px;
   }
@@ -151,6 +169,7 @@ main {
 p,
 ul li,
 ol li {
+  margin-top: 0;
   margin-bottom: 1em;
 }
 
@@ -181,6 +200,7 @@ hr {
   }
 
   ul {
+    margin-top: 0;
     padding-left: 16px;
   }
 }
@@ -235,9 +255,8 @@ hr {
     font-size: 12px;
     font-weight: 500;
   }
-  
+
   .page-content {
     margin-top: 8px;
   }
 }
-
