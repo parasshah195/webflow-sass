@@ -1,3 +1,7 @@
+# 1.1.4
+
+- Clean up non-ascii characters from code editor
+
 # 1.1.3
 
 - Better error messages
