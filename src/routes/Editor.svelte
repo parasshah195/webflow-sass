@@ -6,6 +6,7 @@
   import { oneDark } from '@codemirror/theme-one-dark';
   import { indentWithTab } from '@codemirror/commands';
   import { sass as sassEditorLang } from '@codemirror/lang-sass';
+  import { cleanupNonAsciiChars } from '$lib/js/cleanupNonAsciiChars';
 
   interface ProcessedCode {
     sass: string;
@@ -19,6 +20,8 @@
    * @param initText the text that the new state shall initialize with. Default empty string
    */
   export function getNewEditorState(initText = '') {
+    initText = cleanupNonAsciiChars(initText);
+
     return EditorState.create({
       doc: initText,
       extensions: [basicSetup, sassEditorLang(), oneDark, keymap.of([indentWithTab])]
@@ -33,8 +36,8 @@
   export async function getCompiledCodeFromEditor(
     CODEMIRROR_INSTANCE: EditorView
   ): Promise<ProcessedCode | false> {
-    const sassCode = CODEMIRROR_INSTANCE.state.doc.toString();
-    // .replace(/[\n\r]/g, '');
+    const editorSassCode = CODEMIRROR_INSTANCE.state.doc.toString();
+    const sassCode = cleanupNonAsciiChars(editorSassCode);
 
     if (!sassCode || '' === sassCode) {
       await showWebflowError(ERROR_TEXTS.emptyFile);
