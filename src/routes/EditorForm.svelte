@@ -52,7 +52,6 @@
   export async function updateSass() {
     if (!LOADED_SASS_EL || !(await getWebflowElByID(LOADED_SASS_EL.id))) {
       await showWebflowError(ERROR_TEXTS.sassDomNotFound);
-      await createNewSassDOM();
       return;
     }
 
