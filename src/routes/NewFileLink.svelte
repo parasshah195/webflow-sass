@@ -39,5 +39,5 @@
 {#if !isConfirmationStage}
   <button class="button-ghost" on:click|preventDefault={editorResetInit}>Start a new file</button>
 {:else}
-  <button class="button-ghost" on:click|preventDefault={editorResetConfirm}>Sure?</button>
+  <button class="button-danger" on:click|preventDefault={editorResetConfirm}>Sure?</button>
 {/if}

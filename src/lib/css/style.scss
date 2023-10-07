@@ -59,7 +59,7 @@ button {
   color: var(--text1);
   background: var(--actionSecondaryBackground);
   padding: 4px 4px;
-  border: 1px solid var(--border1);
+  border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
 
@@ -91,6 +91,12 @@ button {
       color: var(--actionPrimaryTextHover);
       background: var(--actionPrimaryBackgroundHover);
     }
+  }
+
+  &.button-danger {
+    background: var(--redBackground);
+    color: var(--actionPrimaryText);
+    box-shadow: var(--boxShadows-action-colored);
   }
 
   &.button-ghost {
@@ -174,11 +180,19 @@ ol li {
     gap: 8px;
   }
 
-  .form_bottom-links {
+  .form_bottom-column {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 4px;
-    align-items: end;
+
+    &.is-action-buttons {
+      flex: 1 0 auto;
+    }
+
+    &.is-links {
+      flex-direction: column;
+      align-items: end;
+    }
   }
 
   .code-editor {

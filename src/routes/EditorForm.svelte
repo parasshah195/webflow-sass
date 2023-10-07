@@ -262,7 +262,7 @@
   <Editor bind:CODEMIRROR_INSTANCE />
 
   <div class="form_bottom-area">
-    <div>
+    <div class="form_bottom-column is-action-buttons">
       <SassLoadButton
         bind:filename={filenameInputVal}
         bind:EDITOR_FILE_TYPE
@@ -276,7 +276,7 @@
         {CODEMIRROR_INSTANCE}
       />
     </div>
-    <div class="form_bottom-links">
+    <div class="form_bottom-column is-links">
       <a href="{base}/notes">App Notes</a>
       <a href="{base}/credits">Credits and License</a>
     </div>
