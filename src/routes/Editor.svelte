@@ -1,8 +1,10 @@
 <script context="module" lang="ts">
   import * as sass from 'sass';
   import { EditorView, basicSetup } from 'codemirror';
+  import { keymap } from '@codemirror/view';
   import { EditorState } from '@codemirror/state';
   import { oneDark } from '@codemirror/theme-one-dark';
+  import { indentWithTab } from '@codemirror/commands';
   import { sass as sassEditorLang } from '@codemirror/lang-sass';
 
   interface ProcessedCode {
@@ -19,7 +21,7 @@
   export function getNewEditorState(initText = '') {
     return EditorState.create({
       doc: initText,
-      extensions: [basicSetup, sassEditorLang(), oneDark]
+      extensions: [basicSetup, sassEditorLang(), oneDark, keymap.of([indentWithTab])]
     });
   }
 

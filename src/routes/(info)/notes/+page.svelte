@@ -3,6 +3,9 @@
 <div class="page-content">
   <div class="note">
     <ul>
+      <li>
+        To use `Tab` key for traversing app elements, press `Escape` to focus out of the Editor
+      </li>
       <li>The compiled CSS is outputted in a minified format on the frontend</li>
       <li>
         Set Sass code element's `Visibility` to `Hidden` to ensure that the sass code doesn't output
