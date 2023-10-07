@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte';
+  import { onMount } from 'svelte';
 
   import { ERROR_TEXTS, showWebflowError } from '$lib/js/webflowNotify';
   import { removeFilenameExtension } from '$lib/js/filename';
@@ -13,7 +13,7 @@
   export let EDITOR_FILE_TYPE: EditorFileTypes;
   export let LOADED_SASS_EL: LoadedSassEl;
 
-  let webflowSelectedElUnsub = () => undefined;
+  let webflowSelectedElUnsub: () => undefined;
 
   onMount(() => {
     webflowSelectedElUnsub = webflow.subscribe('selectedelement', (selectedEl) => {
@@ -23,11 +23,10 @@
       }
 
       clickable = true;
-    });
-  });
 
-  onDestroy(() => {
-    webflowSelectedElUnsub();
+      // on unmount
+      return () => webflowSelectedElUnsub();
+    });
   });
 
   async function loadSass() {
