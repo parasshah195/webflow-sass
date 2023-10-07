@@ -1,8 +1,3 @@
-interface FilenameObject {
-  scss: string;
-  css: string;
-}
-
 export function getFilenamesWithExtension(
   filenameInputValue: string
 ): FilenameObject {
