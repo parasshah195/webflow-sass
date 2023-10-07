@@ -5,7 +5,7 @@
   import { removeFilenameExtension } from '$lib/js/filename';
   import { getNewEditorState } from './Editor.svelte';
   import type { EditorView } from 'codemirror';
-  import type { EditorFileTypes, LoadedSassEl } from './+page.svelte';
+  import type { EditorFileTypes, LoadedSassEl } from './EditorForm.svelte';
 
   let clickable = false;
   export let filename: string;
@@ -13,7 +13,7 @@
   export let EDITOR_FILE_TYPE: EditorFileTypes;
   export let LOADED_SASS_EL: LoadedSassEl;
 
-  let webflowSelectedElUnsub: () => undefined;
+  let webflowSelectedElUnsub = () => undefined;
 
   onMount(() => {
     webflowSelectedElUnsub = webflow.subscribe('selectedelement', (selectedEl) => {

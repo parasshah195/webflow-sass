@@ -1,9 +1,10 @@
 <script lang="ts">
+  import { base } from '$app/paths';
   import ChevronLeft from '$lib/components/ChevronLeft.svelte';
 </script>
 
 <main>
-  <a class="has-arrow" href="/">
+  <a class="has-arrow" href="{base}/">
     <ChevronLeft />
     Back to the app
   </a>

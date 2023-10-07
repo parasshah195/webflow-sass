@@ -13,8 +13,13 @@ const config = {
     // See https://kit.svelte.dev/docs/adapters for more information about adapters.
     adapter: adapter({
       pages: 'dist',
-      fallback: 'index.html'
-    })
+
+      // NOTE: Don't enable `fallback`. Adding a fallback causes relative path to fail, causing Webflow app to not load from within a subdirectory.
+      // fallback: 'index.html' 
+    }),
+    paths: {
+      relative: true,
+    }
   }
 };
 

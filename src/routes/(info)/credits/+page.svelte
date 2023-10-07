@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from '$app/paths';
   import ChevronRight from '$lib/components/ChevronRight.svelte';
 </script>
 
@@ -18,7 +19,7 @@
       <a href="https://sass-lang.com/" target="_blank" class="has-arrow">
         About <ChevronRight />
       </a>
-      <a href="/credits/licenses/dart-sass" class="has-arrow">
+      <a href="{base}/credits/licenses/dart-sass" class="has-arrow">
         License <ChevronRight />
       </a>
     </div>
@@ -30,7 +31,7 @@
       <a href="https://codemirror.net/" target="_blank" class="has-arrow">
         About <ChevronRight />
       </a>
-      <a href="/credits/licenses/codemirror" class="has-arrow">
+      <a href="{base}/credits/licenses/codemirror" class="has-arrow">
         License <ChevronRight />
       </a>
     </div>

@@ -4,6 +4,7 @@
 </script>
 
 <script lang="ts">
+  import { base } from '$app/paths';
   import Editor, { getCompiledCodeFromEditor } from './Editor.svelte';
   import NewEditorFileLink from './NewFileLink.svelte';
   import SassLoadButton from './LoadSassButton.svelte';
@@ -276,8 +277,8 @@
       />
     </div>
     <div class="form_bottom-links">
-      <a href="/notes">App Notes</a>
-      <a href="/credits">Credits and License</a>
+      <a href="{base}/notes">App Notes</a>
+      <a href="{base}/credits">Credits and License</a>
     </div>
   </div>
 </form>
