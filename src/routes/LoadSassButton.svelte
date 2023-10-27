@@ -9,7 +9,6 @@
 
   let clickable = false;
   export let filename: string;
-  export let CODEMIRROR_INSTANCE: EditorView;
   export let EDITOR_FILE_TYPE: EditorFileTypes;
   export let LOADED_SASS_EL: LoadedSassEl;
 
@@ -58,7 +57,7 @@
     }
 
     const currentSassContent = currentSassStringEl.getText();
-    CODEMIRROR_INSTANCE.setState(getNewEditorState(currentSassContent));
+    window.CODEMIRROR_INSTANCE.setState(getNewEditorState(currentSassContent));
   }
 </script>
 

@@ -19,12 +19,10 @@
   } from '$lib/js/webflowNotify.js';
   import { getFilenamesWithExtension } from '$lib/js/filename.js';
   import { getCssDomId, CSS_DOM_ID_ATTRIBUTE } from '$lib/js/getCssDomId.js';
-  import type { EditorView } from 'codemirror';
   import { getWebflowElByID } from '$lib/js/getWebflowElByID';
 
   let filenameInputVal: string;
 
-  let CODEMIRROR_INSTANCE: EditorView;
   /**
    * Defines whether the code file is new or existing
    */
@@ -62,7 +60,7 @@
 
     const filenames = getFilenamesWithExtension(filenameInputVal);
 
-    const compiledCode = await getCompiledCodeFromEditor(CODEMIRROR_INSTANCE);
+    const compiledCode = await getCompiledCodeFromEditor();
     if (!compiledCode) {
       return;
     }
@@ -122,7 +120,7 @@
   }
 
   export async function createNewSassDOM() {
-    const compiledCode = await getCompiledCodeFromEditor(CODEMIRROR_INSTANCE);
+    const compiledCode = await getCompiledCodeFromEditor();
     if (!compiledCode) {
       return;
     }
@@ -243,12 +241,7 @@
 
 <form class="form_component" on:submit|preventDefault={processSass}>
   <div class="form_top-area">
-    <SassLoadButton
-      bind:filename={filenameInputVal}
-      bind:EDITOR_FILE_TYPE
-      bind:LOADED_SASS_EL
-      {CODEMIRROR_INSTANCE}
-    />
+    <SassLoadButton bind:filename={filenameInputVal} bind:EDITOR_FILE_TYPE bind:LOADED_SASS_EL />
 
     <input
       type="text"
@@ -262,7 +255,7 @@
     />
   </div>
 
-  <Editor bind:CODEMIRROR_INSTANCE />
+  <Editor />
 
   <button type="submit" class="button-primary">Compile & Save Code</button>
 
@@ -274,7 +267,6 @@
         bind:filename={filenameInputVal}
         bind:EDITOR_FILE_TYPE
         bind:LOADED_SASS_EL
-        {CODEMIRROR_INSTANCE}
       />
     </div>
 
