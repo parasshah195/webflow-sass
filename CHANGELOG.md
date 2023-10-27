@@ -1,3 +1,8 @@
+# 1.1.5
+
+- Preserve editor file state when navigating between different app pages
+- Change "Back to the app" page route navigation to browser history based "Go Back" functionality
+
 # 1.1.4
 
 - Clean up non-ascii characters from code editor
