@@ -1,14 +1,13 @@
 <script lang="ts">
-  import { base } from '$app/paths';
   import ChevronLeft from '$lib/components/ChevronLeft.svelte';
 </script>
 
 <main>
   <div class="page-wrapper">
-    <a class="has-arrow" href="{base}/">
+    <button class="has-arrow" on:click={() => history.back()}>
       <ChevronLeft />
-      Back to the app
-    </a>
+      Go back
+    </button>
     <slot>
       <!-- Page content will be rendered here -->
     </slot>
@@ -16,7 +15,7 @@
 </main>
 
 <style>
-  a {
+  button {
     position: relative;
     z-index: 1;
   }
