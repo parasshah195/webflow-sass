@@ -13,7 +13,7 @@
     css: string;
   }
 
-  // TODO: add "Tab" key support for the editor
+  // TODO: add CSS highlight
 
   /**
    * Returns a new Sass editor state
@@ -33,10 +33,8 @@
    * This function is responsible for showing webflow error notifications
    * @returns Compiled code or `false` if any error
    */
-  export async function getCompiledCodeFromEditor(
-    CODEMIRROR_INSTANCE: EditorView
-  ): Promise<ProcessedCode | false> {
-    const editorSassCode = CODEMIRROR_INSTANCE.state.doc.toString();
+  export async function getCompiledCodeFromEditor(): Promise<ProcessedCode | false> {
+    const editorSassCode = window.CODEMIRROR_INSTANCE.state.doc.toString();
     const sassCode = cleanupNonAsciiChars(editorSassCode);
 
     if (!sassCode || '' === sassCode) {
@@ -72,15 +70,14 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { ERROR_TEXTS, showWebflowError } from '$lib/js/webflowNotify';
 
-  export let CODEMIRROR_INSTANCE: EditorView;
+  import { ERROR_TEXTS, showWebflowError } from '$lib/js/webflowNotify';
 
   let editorWrapperEl: HTMLDivElement;
   let editorEl: HTMLElement;
 
   onMount(() => {
-    CODEMIRROR_INSTANCE = new EditorView({
+    window.CODEMIRROR_INSTANCE = new EditorView({
       parent: editorWrapperEl,
       state: getNewEditorState()
     });

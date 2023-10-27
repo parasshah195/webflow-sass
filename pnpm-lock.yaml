@@ -53,8 +53,8 @@ devDependencies:
     specifier: ^0.1.9
     version: 0.1.9
   '@webflow/webflow-cli':
-    specifier: ^1.6.3
-    version: 1.6.3
+    specifier: ^1.6.4
+    version: 1.6.4
   concurrently:
     specifier: ^8.2.1
     version: 8.2.1
@@ -781,8 +781,8 @@ packages:
     resolution: {integrity: sha512-Qdo9sAQHgzavm32VGo0kIN1Z3JFk2L/euRKglLBqg1Z+WUsgedgZ0l8dcJ8ouzz6ywZ1Lxv/jowkngre/xK7cQ==}
     dev: true
 
-  /@webflow/webflow-cli@1.6.3:
-    resolution: {integrity: sha512-pwUqgNPGt7Uu+I7tR5eH8Sq0XJhjBwuX2AKuVAcayK32vk12yttMSRPFY7wsHZGDf1lFYgKVxdKlVuXZhGjHig==}
+  /@webflow/webflow-cli@1.6.4:
+    resolution: {integrity: sha512-1Cq6sGV8RolqDudOTZsmWc5wzWC6anjAvrg+a/n8Vk/EGK2IS1MLpW46JqGWgJUg23u+qOmKdbEZL6ZGOq1xnA==}
     hasBin: true
     dependencies:
       commander: 10.0.1

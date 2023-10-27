@@ -2,16 +2,14 @@
   import { onMount } from 'svelte';
 
   import { ERROR_TEXTS, showWebflowError } from '$lib/js/webflowNotify';
-  import { removeFilenameExtension } from '$lib/js/filename';
+  import { removeFilenameExtension } from '$lib/js/filenameExt';
   import { getNewEditorState } from './Editor.svelte';
-  import type { EditorView } from 'codemirror';
-  import type { EditorFileTypes, LoadedSassEl } from './EditorForm.svelte';
+
+  import { FILENAME } from '$lib/js/stores/filename';
+  import { FILE_STATE } from '$lib/js/stores/fileState';
+  import { LOADED_SASS_EL } from '$lib/js/stores/loadedSassEl';
 
   let clickable = false;
-  export let filename: string;
-  export let CODEMIRROR_INSTANCE: EditorView;
-  export let EDITOR_FILE_TYPE: EditorFileTypes;
-  export let LOADED_SASS_EL: LoadedSassEl;
 
   let webflowSelectedElUnsub: () => undefined;
 
@@ -30,7 +28,7 @@
   });
 
   async function loadSass() {
-    EDITOR_FILE_TYPE = 'load';
+    FILE_STATE.set('load');
 
     const sassEl = (await webflow.getSelectedElement()) as DOMElement;
     if (!sassEl || !sassEl.children) {
@@ -38,7 +36,7 @@
       return;
     }
 
-    LOADED_SASS_EL = sassEl;
+    LOADED_SASS_EL.set(sassEl);
 
     let currentFileName = '';
 
@@ -47,7 +45,7 @@
       const currentFileNameWithExtn = currentElStyles[0].getName();
       currentFileName = removeFilenameExtension(currentFileNameWithExtn);
 
-      filename = currentFileName;
+      FILENAME.set(currentFileName);
     }
 
     const currentSassStringEl = sassEl.getChildren()[0];
@@ -58,7 +56,7 @@
     }
 
     const currentSassContent = currentSassStringEl.getText();
-    CODEMIRROR_INSTANCE.setState(getNewEditorState(currentSassContent));
+    window.CODEMIRROR_INSTANCE.setState(getNewEditorState(currentSassContent));
   }
 </script>
 

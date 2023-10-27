@@ -1,13 +1,12 @@
-<script context="module" lang="ts">
-  export type EditorFileTypes = 'new' | 'load';
-  export type LoadedSassEl = DOMElement | null;
-</script>
-
 <script lang="ts">
   import { base } from '$app/paths';
   import Editor, { getCompiledCodeFromEditor } from './Editor.svelte';
   import NewEditorFileLink from './NewFileLink.svelte';
   import SassLoadButton from './LoadSassButton.svelte';
+
+  import { FILENAME } from '$lib/js/stores/filename';
+  import { FILE_STATE, type EditorFileState } from '$lib/js/stores/fileState';
+  import { LOADED_SASS_EL, type LoadedSassEl } from '$lib/js/stores/loadedSassEl';
 
   import {
     ERROR_TEXTS,
@@ -17,20 +16,18 @@
     showWebflowInfoMessage,
     showWebflowSuccessfulSave
   } from '$lib/js/webflowNotify.js';
-  import { getFilenamesWithExtension } from '$lib/js/filename.js';
+  import { getFilenamesWithExtension } from '$lib/js/filenameExt.js';
   import { getCssDomId, CSS_DOM_ID_ATTRIBUTE } from '$lib/js/getCssDomId.js';
-  import type { EditorView } from 'codemirror';
   import { getWebflowElByID } from '$lib/js/getWebflowElByID';
 
   let filenameInputVal: string;
+  FILENAME.subscribe((newFilename) => (filenameInputVal = newFilename));
 
-  let CODEMIRROR_INSTANCE: EditorView;
-  /**
-   * Defines whether the code file is new or existing
-   */
-  let EDITOR_FILE_TYPE: EditorFileTypes = 'new';
+  let editorFileState: EditorFileState;
+  FILE_STATE.subscribe((newFileState) => (editorFileState = newFileState));
 
-  let LOADED_SASS_EL: LoadedSassEl = null;
+  let loadedSassEl: LoadedSassEl;
+  LOADED_SASS_EL.subscribe((newLoadedSassEl) => (loadedSassEl = newLoadedSassEl));
 
   /**
    * Note: `setTextContent` method is used to set the content, and el.getChildren()[0].getText() is used to fetch content. Seems to be the same thing
@@ -42,7 +39,7 @@
       return;
     }
 
-    if ('new' === EDITOR_FILE_TYPE) {
+    if ('new' === editorFileState) {
       createNewSassDOM();
     } else {
       updateSass();
@@ -50,34 +47,34 @@
   }
 
   export async function updateSass() {
-    if (!LOADED_SASS_EL || !(await getWebflowElByID(LOADED_SASS_EL.id))) {
+    if (!loadedSassEl || !(await getWebflowElByID(loadedSassEl.id))) {
       await showWebflowError(ERROR_TEXTS.sassDomNotFound);
       return;
     }
 
-    if (!LOADED_SASS_EL.textContent) {
+    if (!loadedSassEl.textContent) {
       await showWebflowError(ERROR_TEXTS.sassDomCantUpdate);
       return;
     }
 
     const filenames = getFilenamesWithExtension(filenameInputVal);
 
-    const compiledCode = await getCompiledCodeFromEditor(CODEMIRROR_INSTANCE);
+    const compiledCode = await getCompiledCodeFromEditor();
     if (!compiledCode) {
       return;
     }
 
     // set scss
     try {
-      LOADED_SASS_EL.setTextContent(compiledCode.sass);
-      await addStyle(filenames.scss, LOADED_SASS_EL);
-      await LOADED_SASS_EL.save();
+      loadedSassEl.setTextContent(compiledCode.sass);
+      await addStyle(filenames.scss, loadedSassEl);
+      await loadedSassEl.save();
     } catch (err) {
       console.error(err);
     }
 
     // set css
-    const cssDomId = getCssDomId(LOADED_SASS_EL);
+    const cssDomId = getCssDomId(loadedSassEl);
     const currentSelectedEl = await webflow.getSelectedElement();
 
     if (!currentSelectedEl) {
@@ -90,13 +87,13 @@
       const currentCssEl = await getWebflowElByID(cssDomId);
 
       if (!currentCssEl) {
-        await createNewCSSElForSass(currentSelectedEl, LOADED_SASS_EL, compiledCode.css);
+        await createNewCSSElForSass(currentSelectedEl, loadedSassEl, compiledCode.css);
         return;
       }
 
       if (!currentCssEl.children || !currentCssEl.textContent) {
         showWebflowInfoMessage(INFO_TEXTS.cssUpdateError);
-        await createNewCSSElForSass(currentSelectedEl, LOADED_SASS_EL, compiledCode.css);
+        await createNewCSSElForSass(currentSelectedEl, loadedSassEl, compiledCode.css);
         return;
       }
 
@@ -115,14 +112,14 @@
         return;
       }
 
-      createNewCSSElForSass(currentSelectedEl, LOADED_SASS_EL, compiledCode.css);
+      createNewCSSElForSass(currentSelectedEl, loadedSassEl, compiledCode.css);
       await showWebflowSuccessfulSave();
       return;
     }
   }
 
   export async function createNewSassDOM() {
-    const compiledCode = await getCompiledCodeFromEditor(CODEMIRROR_INSTANCE);
+    const compiledCode = await getCompiledCodeFromEditor();
     if (!compiledCode) {
       return;
     }
@@ -152,8 +149,8 @@
       await selectedEl.save();
 
       // change mode to continue updating the same Sass and CSS files.
-      EDITOR_FILE_TYPE = 'load';
-      LOADED_SASS_EL = newSassEl;
+      FILE_STATE.set('load');
+      LOADED_SASS_EL.set(newSassEl);
 
       await showWebflowSuccessfulSave();
     } catch (err) {
@@ -243,12 +240,7 @@
 
 <form class="form_component" on:submit|preventDefault={processSass}>
   <div class="form_top-area">
-    <SassLoadButton
-      bind:filename={filenameInputVal}
-      bind:EDITOR_FILE_TYPE
-      bind:LOADED_SASS_EL
-      {CODEMIRROR_INSTANCE}
-    />
+    <SassLoadButton />
 
     <input
       type="text"
@@ -258,11 +250,11 @@
       required
       pattern="^[\w\s\-_]*$"
       size="35"
-      bind:value={filenameInputVal}
+      bind:value={$FILENAME}
     />
   </div>
 
-  <Editor bind:CODEMIRROR_INSTANCE />
+  <Editor />
 
   <button type="submit" class="button-primary">Compile & Save Code</button>
 
@@ -270,12 +262,7 @@
 
   <div class="form_bottom-area">
     <div class="form_bottom-column is-action-button">
-      <NewEditorFileLink
-        bind:filename={filenameInputVal}
-        bind:EDITOR_FILE_TYPE
-        bind:LOADED_SASS_EL
-        {CODEMIRROR_INSTANCE}
-      />
+      <NewEditorFileLink />
     </div>
 
     <div class="form_bottom-column is-links">
