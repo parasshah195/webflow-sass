@@ -1,12 +1,9 @@
 <script lang="ts">
   import { getNewEditorState } from './Editor.svelte';
-  import type { EditorView } from 'codemirror';
-  import type { EditorFileTypes, LoadedSassEl } from './EditorForm.svelte';
 
-  export let filename: string;
-  export let CODEMIRROR_INSTANCE: EditorView;
-  export let LOADED_SASS_EL: LoadedSassEl;
-  export let EDITOR_FILE_TYPE: EditorFileTypes;
+  import { FILENAME } from '$lib/js/stores/filename';
+  import { FILE_STATE } from '$lib/js/stores/fileState';
+  import { LOADED_SASS_EL } from '$lib/js/stores/loadedSassEl';
 
   let isConfirmationStage = false;
 
@@ -28,11 +25,11 @@
     isConfirmationStage = true;
   }
 
-  function editorResetConfirm(event: Event) {
-    CODEMIRROR_INSTANCE.setState(getNewEditorState());
-    LOADED_SASS_EL = null;
-    filename = '';
-    EDITOR_FILE_TYPE = 'new';
+  function editorResetConfirm() {
+    window.CODEMIRROR_INSTANCE.setState(getNewEditorState());
+    LOADED_SASS_EL.set(null);
+    FILENAME.set('');
+    FILE_STATE.set('new');
   }
 </script>
 
