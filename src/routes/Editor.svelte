@@ -13,7 +13,7 @@
     css: string;
   }
 
-  // TODO: add "Tab" key support for the editor
+  // TODO: add CSS highlight
 
   /**
    * Returns a new Sass editor state

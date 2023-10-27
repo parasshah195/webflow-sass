@@ -20,7 +20,7 @@
     "sourceMap": true,
     "strict": true,
     "types": ["@webflow/designer-extension-typings"]
-  }
+  },
   // "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
   // "references": [{ "path": "./tsconfig.node.json" }]
 }
