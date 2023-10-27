@@ -10,6 +10,13 @@
     <div class="note-title">App by Paras Shah</div>
     <div class="note-links-wrapper">
       <a href="https://paras.sh" target="_blank" class="has-arrow">About <ChevronRight /></a>
+      <a
+        href="mailto:hey@paras.sh?subject=Webflow Sass app inquiry - "
+        target="_blank"
+        class="has-arrow"
+      >
+        Contact <ChevronRight />
+      </a>
     </div>
   </div>
 
