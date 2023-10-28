@@ -22,7 +22,7 @@
         focus away from the app window.
       </li>
       <li>
-        This app and the developer does not provide any support for Sass code that you may write
+        This app and the developer does not provide any support for CSS/Sass code that you may write
         here
       </li>
     </ul>
