@@ -16,8 +16,6 @@
     css: string;
   }
 
-  // TODO: add CSS highlight
-
   /**
    * Returns a new Sass editor state
    * @param initText the text that the new state shall initialize with. Default empty string
