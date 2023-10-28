@@ -80,6 +80,9 @@
   import { onMount } from 'svelte';
 
   import { ERROR_TEXTS, showWebflowError } from '$lib/js/webflowNotify';
+  import { STORE_EDITOR_CONTENT } from '$lib/js/stores/editorContent';
+  import { get } from 'svelte/store';
+  import { beforeNavigate } from '$app/navigation';
 
   let editorWrapperEl: HTMLDivElement;
   let editorEl: HTMLElement;
@@ -87,12 +90,16 @@
   onMount(() => {
     window.CODEMIRROR_INSTANCE = new EditorView({
       parent: editorWrapperEl,
-      state: getNewEditorState()
+      state: getNewEditorState(get(STORE_EDITOR_CONTENT))
     });
 
     editorEl = editorWrapperEl.children[0] as HTMLElement;
 
     updateEditorHeight();
+  });
+
+  beforeNavigate(() => {
+    STORE_EDITOR_CONTENT.set(window.CODEMIRROR_INSTANCE.state.doc.toString());
   });
 
   function updateEditorHeight() {
