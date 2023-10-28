@@ -31,14 +31,17 @@ function getAllWebflowVars(): Completion[] | null {
             if (!variableName) return;
 
             // Convert to a CSS Variable
-            // NOTE: Does not address an edge case where a special character sandwiched between hyphen should all become a single hyphen. E.g: `---@--` should become `-`
             let sanitizedVar = variableName
-              .replace(/-+/g, '-') // Convert remaining multiple hyphens to a single one
-              .replace(/\s*\/\s*/g, '--') // All `/`, with or without surrounded spaces, become `--`
               .replace(/[:;]+/g, ' ') // Replace one or more colon/semicolon to a space
-              .replace(/\s+/g, '-') // Remaining spaces become `-`
+              .replace(/-+/g, '-') // Convert multiple hyphens to a single one
+
+              .replace(/\s*\/\s*/g, '--') // All `/`, with or without surrounded spaces, become `--`
+              .replace(/(?<=\w)\s+(?=\w)/g, '-') // Spaces between valid characters become `-`
+              .replace(/\s+/g, '') // Remove all remaining spaces
+
               .replace(/[^\w-]/g, '') // Remove all other unsupported characters (besides underscores and hyphens)
               .replace(/^-+|-+$/g, '') // Remove leading and trailing hyphens
+
               .toLowerCase();
 
             sanitizedVar = '--' + sanitizedVar;
