@@ -23,7 +23,7 @@ function getAllWebflowVars(): Completion[] | null {
             if (typeof (val as SizeValue) === 'object') {
               variableValue = `${(val as SizeValue).value}${(val as SizeValue).unit}`;
             } else {
-              variableValue = JSON.stringify(val) || '';
+              variableValue = val.toString() || '';
             }
           });
 
@@ -49,7 +49,7 @@ function getAllWebflowVars(): Completion[] | null {
             autocompleteClassOptions.push({
               label: `var(${sanitizedVar})`,
               type: 'variable',
-              info: `Webflow Variable: \n${variableName} \n${variableValue}`
+              info: `${variableName} \n${variableValue}`
             });
           });
         });
