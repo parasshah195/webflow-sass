@@ -16,22 +16,17 @@ let webflowClassAutocomplete: Completion[] | null = null;
  */
 
 function webflowClassesAutocompletions(context: CompletionContext) {
-  const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
+  const classRegex = /\.[\w-]*/;
 
-  // Get the text before the completion point
-  const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos);
-
-  // Check if there is an existing class name selector (e.g., .classname) in the text
-  const classNameBefore = /\.[\w-]*$/.exec(textBefore);
-
-  if (!classNameBefore && !context.explicit) {
-    return null;
-  }
+  const word = context.matchBefore(classRegex);
+  if (!word) return null;
+  if (word.from == word.to && !context.explicit) return null;
 
   return {
-    from: classNameBefore ? nodeBefore.from + classNameBefore.index : context.pos,
+    // from: classNameBefore ? nodeBefore.from + classNameBefore.index : context.pos,
+    from: word.from,
     options: webflowClassAutocomplete,
-    validFor: /^\.[\w-]*$/
+    validFor: classRegex
   };
 }
 
