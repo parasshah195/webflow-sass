@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
-  import * as sass from 'sass';
+  import { compileString as sassCompile } from 'sass';
+  import type { CompileResult as sassCompileResult, Exception as sassException } from 'sass';
   import { EditorView, basicSetup } from 'codemirror';
   import { keymap } from '@codemirror/view';
   import { EditorState } from '@codemirror/state';
@@ -42,15 +43,15 @@
       return false;
     }
 
-    let sassCompiled: sass.CompileResult;
+    let sassCompiled: sassCompileResult;
 
     try {
-      sassCompiled = sass.compileString(sassCode, {
+      sassCompiled = sassCompile(sassCode, {
         style: 'compressed',
         quietDeps: true
       });
     } catch (err) {
-      const error = err as sass.Exception;
+      const error = err as sassException;
 
       const friendlyLog = `Sass code error: \n${error.sassMessage} @ line ${
         error.span.start.line + 1
