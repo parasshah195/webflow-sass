@@ -8,6 +8,7 @@
   import { FILENAME } from '$lib/js/stores/filename';
   import { FILE_STATE } from '$lib/js/stores/fileState';
   import { LOADED_SASS_EL } from '$lib/js/stores/loadedSassEl';
+  import { STORE_EDITOR_CONTENT } from '$lib/js/stores/editorContent';
 
   let clickable = false;
 
@@ -57,6 +58,7 @@
 
     const currentSassContent = currentSassStringEl.getText();
     window.CODEMIRROR_INSTANCE.setState(getNewEditorState(currentSassContent));
+    STORE_EDITOR_CONTENT.set(currentSassContent);
   }
 </script>
 

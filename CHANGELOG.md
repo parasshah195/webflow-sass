@@ -1,3 +1,10 @@
+# 1.1.6
+
+- Add autocompletion for Webflow classes and CSS variables
+- Remove snapshots and fully use Svelte store to preserve editor state across app page navigation
+- Add `aria-label` to filename input
+
+
 # 1.1.5
 
 - Preserve editor file state when navigating between different app pages

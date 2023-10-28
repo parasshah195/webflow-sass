@@ -180,6 +180,11 @@ hr {
   border: none;
 }
 
+// Codemirror Editor
+.cm-editor .cm-tooltip.cm-completionInfo {
+  white-space: pre-wrap;
+}
+
 .note {
   display: flex;
   flex-direction: column;

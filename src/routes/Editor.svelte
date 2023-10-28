@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
-  import * as sass from 'sass';
+  import { compileString as sassCompile } from 'sass';
+  import type { CompileResult as sassCompileResult, Exception as sassException } from 'sass';
   import { EditorView, basicSetup } from 'codemirror';
   import { keymap } from '@codemirror/view';
   import { EditorState } from '@codemirror/state';
@@ -7,13 +8,13 @@
   import { indentWithTab } from '@codemirror/commands';
   import { sass as sassEditorLang } from '@codemirror/lang-sass';
   import { cleanupNonAsciiChars } from '$lib/js/cleanupNonAsciiChars';
+  import { registerWebflowClassCompletions } from '$lib/js/editor/autocompleteClassnames';
+  import { registerWebflowVarsCompletions } from '$lib/js/editor/autocompleteVariables';
 
   interface ProcessedCode {
     sass: string;
     css: string;
   }
-
-  // TODO: add CSS highlight
 
   /**
    * Returns a new Sass editor state
@@ -24,7 +25,14 @@
 
     return EditorState.create({
       doc: initText,
-      extensions: [basicSetup, sassEditorLang(), oneDark, keymap.of([indentWithTab])]
+      extensions: [
+        basicSetup,
+        sassEditorLang(),
+        registerWebflowClassCompletions(),
+        registerWebflowVarsCompletions(),
+        oneDark,
+        keymap.of([indentWithTab])
+      ]
     });
   }
 
@@ -42,17 +50,17 @@
       return false;
     }
 
-    let sassCompiled: sass.CompileResult;
+    let sassCompiled: sassCompileResult;
 
     try {
-      sassCompiled = sass.compileString(sassCode, {
+      sassCompiled = sassCompile(sassCode, {
         style: 'compressed',
         quietDeps: true
       });
     } catch (err) {
-      const error = err as sass.Exception;
+      const error = err as sassException;
 
-      const friendlyLog = `Sass code error: \n${error.sassMessage} @ line ${
+      const friendlyLog = `Code error: \n${error.sassMessage} @ line ${
         error.span.start.line + 1
       }:col ${error.span.start.column}`;
       await showWebflowError(friendlyLog);
@@ -72,6 +80,9 @@
   import { onMount } from 'svelte';
 
   import { ERROR_TEXTS, showWebflowError } from '$lib/js/webflowNotify';
+  import { STORE_EDITOR_CONTENT } from '$lib/js/stores/editorContent';
+  import { get } from 'svelte/store';
+  import { beforeNavigate } from '$app/navigation';
 
   let editorWrapperEl: HTMLDivElement;
   let editorEl: HTMLElement;
@@ -79,12 +90,16 @@
   onMount(() => {
     window.CODEMIRROR_INSTANCE = new EditorView({
       parent: editorWrapperEl,
-      state: getNewEditorState()
+      state: getNewEditorState(get(STORE_EDITOR_CONTENT))
     });
 
     editorEl = editorWrapperEl.children[0] as HTMLElement;
 
     updateEditorHeight();
+  });
+
+  beforeNavigate(() => {
+    STORE_EDITOR_CONTENT.set(window.CODEMIRROR_INSTANCE.state.doc.toString());
   });
 
   function updateEditorHeight() {
