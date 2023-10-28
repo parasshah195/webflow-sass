@@ -26,6 +26,7 @@
     await webflow.setExtensionSize({ width: 500, height: 1080 });
   });
 
+  //TODO: snapshots might not be required. see if svelte stores persists through page navigations, and if yes, just restore the store values on component initialization
   export const snapshot: Snapshot<string> = {
     capture: () => {
       const snapshotObj: EditorSnapshot = {
@@ -34,7 +35,6 @@
         EDITOR_FILE_STATE: get(FILE_STATE),
         CURRENT_FILENAME: get(FILENAME)
       };
-      console.log(snapshotObj);
       return JSON.stringify(snapshotObj);
     },
     restore: (value) => {
