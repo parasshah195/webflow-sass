@@ -9,6 +9,7 @@
   import { sass as sassEditorLang } from '@codemirror/lang-sass';
   import { cleanupNonAsciiChars } from '$lib/js/cleanupNonAsciiChars';
   import { registerWebflowClassCompletions } from '$lib/js/editor/autocompleteClassnames';
+  import { registerWebflowVarsCompletions } from '$lib/js/editor/autocompleteVariables';
 
   interface ProcessedCode {
     sass: string;
@@ -30,6 +31,7 @@
         basicSetup,
         sassEditorLang(),
         registerWebflowClassCompletions(),
+        registerWebflowVarsCompletions(),
         oneDark,
         keymap.of([indentWithTab])
       ]
