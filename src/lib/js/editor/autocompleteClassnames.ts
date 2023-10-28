@@ -5,7 +5,6 @@
 
 import type { Completion, CompletionContext } from '@codemirror/autocomplete';
 import { sassLanguage } from '@codemirror/lang-sass';
-import { syntaxTree } from '@codemirror/language';
 import { get } from 'svelte/store';
 import { WEBFLOW_CLASSES_AUTOCOMPLETE } from '$lib/js/stores/webflowClasses';
 
@@ -23,7 +22,6 @@ function webflowClassesAutocompletions(context: CompletionContext) {
   if (word.from == word.to && !context.explicit) return null;
 
   return {
-    // from: classNameBefore ? nodeBefore.from + classNameBefore.index : context.pos,
     from: word.from,
     options: webflowClassAutocomplete,
     validFor: classRegex
