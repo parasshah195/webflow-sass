@@ -53,7 +53,7 @@
     } catch (err) {
       const error = err as sassException;
 
-      const friendlyLog = `Sass code error: \n${error.sassMessage} @ line ${
+      const friendlyLog = `Code error: \n${error.sassMessage} @ line ${
         error.span.start.line + 1
       }:col ${error.span.start.column}`;
       await showWebflowError(friendlyLog);
