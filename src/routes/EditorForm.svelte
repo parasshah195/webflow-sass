@@ -249,6 +249,7 @@
       title="Allowed characters - Letters, Numbers, Space, Hyphen, and Underscores"
       required
       pattern="^[\w\s\-_]*$"
+      aria-label="filename"
       size="35"
       bind:value={$FILENAME}
     />
