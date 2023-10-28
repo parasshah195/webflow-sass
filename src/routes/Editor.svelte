@@ -8,6 +8,7 @@
   import { indentWithTab } from '@codemirror/commands';
   import { sass as sassEditorLang } from '@codemirror/lang-sass';
   import { cleanupNonAsciiChars } from '$lib/js/cleanupNonAsciiChars';
+  import { registerWebflowClassCompletions } from '$lib/js/editor/autocompleteClassnames';
 
   interface ProcessedCode {
     sass: string;
@@ -25,7 +26,13 @@
 
     return EditorState.create({
       doc: initText,
-      extensions: [basicSetup, sassEditorLang(), oneDark, keymap.of([indentWithTab])]
+      extensions: [
+        basicSetup,
+        sassEditorLang(),
+        registerWebflowClassCompletions(),
+        oneDark,
+        keymap.of([indentWithTab])
+      ]
     });
   }
 
