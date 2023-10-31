@@ -102,6 +102,8 @@
     STORE_EDITOR_CONTENT.set(window.CODEMIRROR_INSTANCE.state.doc.toString());
   });
 
+  // TODO: update programmatically by calculating and subtracting other items heights
+  // There shall be no vertical scrollbar
   function updateEditorHeight() {
     const documentHeight = document.documentElement.clientHeight;
 
