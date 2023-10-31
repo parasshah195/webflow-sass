@@ -61,6 +61,9 @@
   }
 </script>
 
-<button class="button-default" disabled={!clickable} on:click|preventDefault={loadSass}
-  >Edit selected Sass element code</button
+<button
+  class="button-default"
+  disabled={!clickable}
+  title={!clickable ? 'Select an .scss file in navigator to edit' : null}
+  on:click|preventDefault={loadSass}>Edit .scss file</button
 >
