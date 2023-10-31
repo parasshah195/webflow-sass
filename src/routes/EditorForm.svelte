@@ -247,12 +247,12 @@
       type="text"
       id="filename"
       name="filename"
-      placeholder="Enter filename (E.g: 'Global Styles')"
+      placeholder="Filename - E.g: Global Styles"
       title="Allowed characters - Letters, Numbers, Space, Hyphen, and Underscores"
       required
       pattern="^[\w\s\-_]*$"
       aria-label="filename"
-      size="35"
+      size="25"
       bind:value={$FILENAME}
     />
   </div>
