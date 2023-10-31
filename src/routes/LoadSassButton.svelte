@@ -29,14 +29,20 @@
   });
 
   async function loadSass() {
-    FILE_STATE.set('load');
-
     const sassEl = (await webflow.getSelectedElement()) as DOMElement;
+    const currentSassStringEl = sassEl.getChildren()[0];
+
     if (!sassEl || !sassEl.children) {
       await showWebflowError(ERROR_TEXTS.invalidSassElLoad);
       return;
     }
 
+    if ('String' !== currentSassStringEl.type) {
+      await showWebflowError(ERROR_TEXTS.sassLoadNoCode);
+      return;
+    }
+
+    FILE_STATE.set('load');
     LOADED_SASS_EL.set(sassEl);
 
     let currentFileName = '';
@@ -47,13 +53,6 @@
       currentFileName = removeFilenameExtension(currentFileNameWithExtn);
 
       FILENAME.set(currentFileName);
-    }
-
-    const currentSassStringEl = sassEl.getChildren()[0];
-
-    if ('String' !== currentSassStringEl.type) {
-      await showWebflowError(ERROR_TEXTS.sassLoadNoCode);
-      return;
     }
 
     const currentSassContent = currentSassStringEl.getText();
