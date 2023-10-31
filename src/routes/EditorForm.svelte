@@ -242,8 +242,10 @@
   <div class="form_top-area">
     <SassLoadButton />
 
+    <label for="filename" class="sr-only">Enter Filename</label>
     <input
       type="text"
+      id="filename"
       name="filename"
       placeholder="Enter filename (E.g: 'Global Styles')"
       title="Allowed characters - Letters, Numbers, Space, Hyphen, and Underscores"
