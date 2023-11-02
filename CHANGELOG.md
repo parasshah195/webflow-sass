@@ -1,3 +1,10 @@
+# 1.1.7
+
+- Reduce the size of app window
+- Add `label` to filename input
+- Update UI and notices text
+- Consolidate all app info in a single page
+
 # 1.1.6
 
 - Add autocompletion for Webflow classes and CSS variables

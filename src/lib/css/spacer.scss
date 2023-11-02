@@ -1,0 +1,10 @@
+@mixin spacer($space: 0) {
+  width: 100%;
+  padding-top: $space;
+}
+
+.spacer {
+  &-small {
+    @include spacer(1rem);
+  }
+}

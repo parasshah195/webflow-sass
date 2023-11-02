@@ -1,7 +1,7 @@
 {
   "name": "webflow-sass",
   "private": true,
-  "version": "1.1.6",
+  "version": "1.1.7",
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite build --watch\" \"webflow extension serve\"",
@@ -41,6 +41,7 @@
     "@codemirror/state": "^6.2.1",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.21.3",
+    "@finsweet/ts-utils": "^0.40.0",
     "@lezer/sass": "^1.0.3",
     "codemirror": "^6.0.1",
     "sass": "^1.69.0"

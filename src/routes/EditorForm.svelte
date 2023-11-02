@@ -242,15 +242,17 @@
   <div class="form_top-area">
     <SassLoadButton />
 
+    <label for="filename" class="sr-only">Enter Filename</label>
     <input
       type="text"
+      id="filename"
       name="filename"
-      placeholder="Enter filename (E.g: 'Global Styles')"
+      placeholder="Filename - E.g: Global Styles"
       title="Allowed characters - Letters, Numbers, Space, Hyphen, and Underscores"
       required
       pattern="^[\w\s\-_]*$"
       aria-label="filename"
-      size="35"
+      size="25"
       bind:value={$FILENAME}
     />
   </div>
@@ -267,8 +269,7 @@
     </div>
 
     <div class="form_bottom-column is-links">
-      <a href="{base}/notes">Notes & Error Actions</a>
-      <a href="{base}/credits">Credits & License</a>
+      <a href="{base}/info">App Info</a>
     </div>
   </div>
 </form>

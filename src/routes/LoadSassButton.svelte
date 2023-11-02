@@ -29,14 +29,20 @@
   });
 
   async function loadSass() {
-    FILE_STATE.set('load');
-
     const sassEl = (await webflow.getSelectedElement()) as DOMElement;
+    const currentSassStringEl = sassEl.getChildren()[0];
+
     if (!sassEl || !sassEl.children) {
       await showWebflowError(ERROR_TEXTS.invalidSassElLoad);
       return;
     }
 
+    if ('String' !== currentSassStringEl.type) {
+      await showWebflowError(ERROR_TEXTS.sassLoadNoCode);
+      return;
+    }
+
+    FILE_STATE.set('load');
     LOADED_SASS_EL.set(sassEl);
 
     let currentFileName = '';
@@ -49,19 +55,15 @@
       FILENAME.set(currentFileName);
     }
 
-    const currentSassStringEl = sassEl.getChildren()[0];
-
-    if ('String' !== currentSassStringEl.type) {
-      await showWebflowError(ERROR_TEXTS.sassLoadNoCode);
-      return;
-    }
-
     const currentSassContent = currentSassStringEl.getText();
     window.CODEMIRROR_INSTANCE.setState(getNewEditorState(currentSassContent));
     STORE_EDITOR_CONTENT.set(currentSassContent);
   }
 </script>
 
-<button class="button-default" disabled={!clickable} on:click|preventDefault={loadSass}
-  >Edit selected Sass element code</button
+<button
+  class="button-default"
+  disabled={!clickable}
+  title={!clickable ? 'Select an .scss file in navigator to edit' : null}
+  on:click|preventDefault={loadSass}>Edit .scss file</button
 >

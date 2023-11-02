@@ -8,6 +8,7 @@
       <ChevronLeft />
       Go back
     </button>
+
     <slot>
       <!-- Page content will be rendered here -->
     </slot>
