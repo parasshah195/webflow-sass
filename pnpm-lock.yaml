@@ -29,6 +29,9 @@ dependencies:
   '@codemirror/view':
     specifier: ^6.21.3
     version: 6.21.3
+  '@finsweet/ts-utils':
+    specifier: ^0.40.0
+    version: 0.40.0
   '@lezer/sass':
     specifier: ^1.0.3
     version: 1.0.3
@@ -451,6 +454,10 @@ packages:
     resolution: {integrity: sha512-JUFJad5lv7jxj926GPgymrWQxxjPYuJNiNjNMzqT+HiuP6Vl3dk5xzG+8sTX96np0ZAluvaMzPsjhHZ5rNuNQQ==}
     engines: {node: '>=14'}
     dev: true
+
+  /@finsweet/ts-utils@0.40.0:
+    resolution: {integrity: sha512-Q24YkkvVxZOA7OGpgC7FsYakHBZWKSiZoV68F1HlhGcqqi5v+9mTHVxV8fSiPJawsTDrjwK44jhYk+GovPWT3w==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.11:
     resolution: {integrity: sha512-N2brEuAadi0CcdeMXUkhbZB84eskAc8MEX1By6qEchoVywSgXPIjou4rYsl0V3Hj0ZnuGycGCjdNgockbzeWNA==}

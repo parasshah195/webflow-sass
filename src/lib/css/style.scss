@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 @import 'webflow-style-vars';
+@import 'spacer';
 
 @mixin link {
   color: var(--blueText);
@@ -62,6 +63,11 @@ form * {
   font-size: inherit;
 }
 
+ul {
+  margin-top: 0;
+  padding-left: 16px;
+}
+
 input {
   background-color: var(--backgroundInput);
   padding: 4px;
@@ -85,7 +91,8 @@ input {
   // }
 }
 
-button {
+button,
+.button {
   color: var(--text1);
   background: var(--actionSecondaryBackground);
   padding: 4px 4px;
@@ -173,6 +180,15 @@ ol li {
   margin-bottom: 1em;
 }
 
+li ul,
+li ol {
+  margin-top: 0.5em;
+
+  > li {
+    margin-bottom: 0.75em;
+  }
+}
+
 hr {
   height: 1px;
   width: 100%;
@@ -215,10 +231,39 @@ hr {
     flex-wrap: wrap;
     gap: 8px;
   }
+}
 
-  ul {
-    margin-top: 0;
-    padding-left: 16px;
+details {
+  background-color: var(--background2);
+  border-radius: var(--border-radius);
+  margin-bottom: 8px;
+  color: var(--text1);
+  overflow: hidden;
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    font-weight: 600;
+    font-size: 12.5px;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  .accordion_icon {
+    transition: rotate 300ms linear;
+  }
+
+  &[open] .accordion_icon {
+    rotate: 90deg;
+  }
+
+  .accordion_content-wrapper {
+    // background-color: var(--background3);
+    padding: 8px;
   }
 }
 
@@ -274,6 +319,6 @@ hr {
   }
 
   .page-content {
-    margin-top: 8px;
+    margin-top: 16px;
   }
 }

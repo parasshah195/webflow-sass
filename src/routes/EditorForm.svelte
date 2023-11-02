@@ -269,8 +269,7 @@
     </div>
 
     <div class="form_bottom-column is-links">
-      <a href="{base}/notes">Notes & Error Actions</a>
-      <a href="{base}/credits">Credits & License</a>
+      <a href="{base}/info">App Info</a>
     </div>
   </div>
 </form>
